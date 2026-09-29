@@ -104,7 +104,6 @@
       white-space: pre-wrap;
       min-height: 70px;
       font-family: monospace;
-      color: #7ee787;
     }
 
     .error {
@@ -154,7 +153,7 @@
 
 <header>
   <h1>🚀 Nova Playground</h1>
-  <p>Nova v0.4</p>
+  <p>Nova v0.5</p>
 </header>
 
 <div class="container">
@@ -172,17 +171,12 @@
 
   <div class="status" id="status">Ready</div>
 
-  <textarea id="editor" spellcheck="false">score = 85
+  <textarea id="editor" spellcheck="false">x = 20
 
-if score >= 90
-    say "A"
-elseif score >= 80
-    say "B"
-elseif score >= 70
-    say "C"
-else
-    say "F"
-end</textarea>
+say x - 5
+say x * 2
+say x / 4
+say x % 3</textarea>
 
   <div class="panel">
     <h2>🖥 Output</h2>
@@ -190,7 +184,7 @@ end</textarea>
   </div>
 
   <div class="panel">
-    <h2>📖 Nova v0.4 Commands</h2>
+    <h2>📖 Nova v0.5 Commands</h2>
 
     <div class="command"><code>say</code> - print text or a value</div>
     <div class="command"><code>name = "Alex"</code> - create a variable</div>
@@ -217,6 +211,10 @@ end</textarea>
     <div class="command">
       Math:
       <code>+</code>
+      <code>-</code>
+      <code>*</code>
+      <code>/</code>
+      <code>%</code>
     </div>
   </div>
 
@@ -231,8 +229,16 @@ say name</div>
     <div class="example">age = 14
 say age + 1</div>
 
-    <div class="example">score = 96
-score = score + 4
+    <div class="example">x = 20
+
+say x - 5
+say x * 2
+say x / 4
+say x % 3</div>
+
+    <div class="example">score = 50
+score = score + 10
+score = score - 5
 say score</div>
 
     <div class="example"># This is a comment
@@ -272,19 +278,14 @@ end</div>
   const output = document.getElementById("output");
   const status = document.getElementById("status");
 
-  const STORAGE_KEY = "nova-v04-code";
+  const STORAGE_KEY = "nova-v05-code";
 
-  const starterCode = `score = 85
+  const starterCode = `x = 20
 
-if score >= 90
-    say "A"
-elseif score >= 80
-    say "B"
-elseif score >= 70
-    say "C"
-else
-    say "F"
-end`;
+say x - 5
+say x * 2
+say x / 4
+say x % 3`;
 
   const saved = localStorage.getItem(STORAGE_KEY);
 
@@ -364,54 +365,209 @@ end`;
       return line.trim();
     }
 
-    function splitAddition(text) {
+    /*
+      Nova math evaluator.
+
+      Supports:
+      +  addition
+      -  subtraction
+      *  multiplication
+      /  division
+      %  remainder
+
+      Multiplication, division, and remainder happen
+      before addition and subtraction.
+    */
+
+    function tokenizeMath(text) {
+      const tokens = [];
+      let current = "";
       let insideString = false;
 
       for (let i = 0; i < text.length; i++) {
-        if (text[i] === '"') {
+        const char = text[i];
+
+        if (char === '"') {
           insideString = !insideString;
+          current += char;
+          continue;
         }
 
-        if (text[i] === "+" && !insideString) {
-          return [
-            text.substring(0, i).trim(),
-            text.substring(i + 1).trim()
-          ];
+        if (
+          !insideString &&
+          ["+", "-", "*", "/", "%", "(", ")"].includes(char)
+        ) {
+          if (current.trim() !== "") {
+            tokens.push(current.trim());
+            current = "";
+          }
+
+          tokens.push(char);
+          continue;
         }
+
+        current += char;
       }
 
-      return null;
+      if (current.trim() !== "") {
+        tokens.push(current.trim());
+      }
+
+      return tokens;
+    }
+
+    function evaluateMath(text) {
+      const tokens = tokenizeMath(text);
+
+      if (tokens.length === 0) {
+        throw new Error("Empty expression");
+      }
+
+      let position = 0;
+
+      function getValue() {
+        if (position >= tokens.length) {
+          throw new Error("Expected a value");
+        }
+
+        const token = tokens[position];
+
+        if (token === "-") {
+          position++;
+          const value = getValue();
+
+          if (typeof value !== "number") {
+            throw new Error("Cannot use - with text");
+          }
+
+          return -value;
+        }
+
+        if (token === "(") {
+          position++;
+
+          const value = parseAddSubtract();
+
+          if (tokens[position] !== ")") {
+            throw new Error("Missing )");
+          }
+
+          position++;
+          return value;
+        }
+
+        position++;
+
+        if (
+          token.startsWith('"') &&
+          token.endsWith('"')
+        ) {
+          return token.slice(1, -1);
+        }
+
+        if (/^-?\d+(\.\d+)?$/.test(token)) {
+          return Number(token);
+        }
+
+        if (Object.prototype.hasOwnProperty.call(variables, token)) {
+          return variables[token];
+        }
+
+        throw new Error("Unknown value: " + token);
+      }
+
+      function parseMultiplyDivide() {
+        let left = getValue();
+
+        while (
+          position < tokens.length &&
+          ["*", "/", "%"].includes(tokens[position])
+        ) {
+          const operator = tokens[position];
+          position++;
+
+          const right = getValue();
+
+          if (
+            typeof left !== "number" ||
+            typeof right !== "number"
+          ) {
+            throw new Error("Math requires numbers");
+          }
+
+          if (operator === "*") {
+            left = left * right;
+          }
+
+          if (operator === "/") {
+            if (right === 0) {
+              throw new Error("Cannot divide by zero");
+            }
+
+            left = left / right;
+          }
+
+          if (operator === "%") {
+            if (right === 0) {
+              throw new Error("Cannot divide by zero");
+            }
+
+            left = left % right;
+          }
+        }
+
+        return left;
+      }
+
+      function parseAddSubtract() {
+        let left = parseMultiplyDivide();
+
+        while (
+          position < tokens.length &&
+          ["+", "-"].includes(tokens[position])
+        ) {
+          const operator = tokens[position];
+          position++;
+
+          const right = parseMultiplyDivide();
+
+          if (
+            typeof left !== "number" ||
+            typeof right !== "number"
+          ) {
+            if (operator === "+" && (typeof left === "string" || typeof right === "string")) {
+              left = String(left) + String(right);
+              continue;
+            }
+
+            throw new Error("Math requires numbers");
+          }
+
+          if (operator === "+") {
+            left = left + right;
+          }
+
+          if (operator === "-") {
+            left = left - right;
+          }
+        }
+
+        return left;
+      }
+
+      const result = parseAddSubtract();
+
+      if (position < tokens.length) {
+        throw new Error("Unexpected value: " + tokens[position]);
+      }
+
+      return result;
     }
 
     function evaluate(value) {
       value = value.trim();
 
-      if (value.startsWith('"') && value.endsWith('"')) {
-        return value.slice(1, -1);
-      }
-
-      const addition = splitAddition(value);
-
-      if (addition) {
-        const left = evaluate(addition[0]);
-        const right = evaluate(addition[1]);
-
-        if (typeof left === "number" && typeof right === "number") {
-          return left + right;
-        }
-
-        return String(left) + String(right);
-      }
-
-      if (/^-?\d+(\.\d+)?$/.test(value)) {
-        return Number(value);
-      }
-
-      if (Object.prototype.hasOwnProperty.call(variables, value)) {
-        return variables[value];
-      }
-
-      throw new Error(`Unknown value: ${value}`);
+      return evaluateMath(value);
     }
 
     function evaluateCondition(condition) {
@@ -453,42 +609,14 @@ end`;
       throw new Error("Invalid condition: " + condition);
     }
 
-    function findBlock(start) {
-      let depth = 1;
-      let elseIndex = -1;
-
-      for (let i = start + 1; i < lines.length; i++) {
-        const line = cleanLine(lines[i]);
-
-        if (line.startsWith("if ")) {
-          depth++;
-        }
-
-        if (line === "end") {
-          depth--;
-
-          if (depth === 0) {
-            return {
-              endIndex: i,
-              elseIndex
-            };
-          }
-        }
-
-        if (depth === 1 && line === "else") {
-          elseIndex = i;
-        }
-      }
-
-      throw new Error("Missing end");
-    }
-
     function findIfChain(start) {
       let depth = 1;
       let endIndex = -1;
       const branches = [];
 
-      let currentCondition = lines[start].trim().substring(3).trim();
+      let currentCondition =
+        lines[start].trim().substring(3).trim();
+
       let branchStart = start + 1;
 
       for (let i = start + 1; i < lines.length; i++) {
@@ -513,14 +641,19 @@ end`;
           }
         }
 
-        if (depth === 1 && line.startsWith("elseif ")) {
+        if (
+          depth === 1 &&
+          line.startsWith("elseif ")
+        ) {
           branches.push({
             condition: currentCondition,
             start: branchStart,
             end: i
           });
 
-          currentCondition = line.substring(7).trim();
+          currentCondition =
+            line.substring(7).trim();
+
           branchStart = i + 1;
         }
 
@@ -548,8 +681,7 @@ end`;
 
     function executeLines(start, end) {
       for (let i = start; i < end; i++) {
-        const raw = lines[i];
-        const line = cleanLine(raw);
+        const line = cleanLine(lines[i]);
 
         if (!line || line.startsWith("#")) {
           continue;
@@ -558,15 +690,12 @@ end`;
         if (line.startsWith("if ")) {
           const chain = findIfChain(i);
 
-          let executed = false;
-
           for (const branch of chain.branches) {
             if (
               branch.condition === null ||
               evaluateCondition(branch.condition)
             ) {
               executeLines(branch.start, branch.end);
-              executed = true;
               break;
             }
           }
@@ -575,7 +704,10 @@ end`;
           continue;
         }
 
-        if (line === "else" || line.startsWith("elseif ")) {
+        if (
+          line === "else" ||
+          line.startsWith("elseif ")
+        ) {
           continue;
         }
 
@@ -589,20 +721,19 @@ end`;
           continue;
         }
 
-        if (line.includes("=")) {
-          const equalsIndex = line.indexOf("=");
+        const equalsIndex = line.indexOf("=");
 
-          if (
-            line[equalsIndex + 1] === "="
-          ) {
-            throw new Error("Invalid variable assignment");
-          }
-
+        if (
+          equalsIndex !== -1 &&
+          !line.includes("==")
+        ) {
           const name = line.substring(0, equalsIndex).trim();
           const value = line.substring(equalsIndex + 1).trim();
 
           if (!/^[A-Za-z_][A-Za-z0-9_]*$/.test(name)) {
-            throw new Error("Invalid variable name: " + name);
+            throw new Error(
+              "Invalid variable name: " + name
+            );
           }
 
           variables[name] = evaluate(value);
