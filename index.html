@@ -125,7 +125,6 @@
       font-family: "Courier New", monospace;
       white-space: pre-wrap;
       overflow-wrap: break-word;
-      color: #f0f6fc;
     }
 
     .error {
@@ -159,6 +158,7 @@
     .example-code {
       display: block;
       padding: 12px;
+      margin-bottom: 7px;
       border-radius: 8px;
       background: #0d1117;
       border: 1px solid #30363d;
@@ -199,7 +199,7 @@
 
   <header>
     <h1>🚀 Nova Playground</h1>
-    <p>Nova v0.2 • Your first programming language</p>
+    <p>Nova v0.3 • Your first programming language</p>
   </header>
 
   <main class="container">
@@ -215,6 +215,7 @@
       </div>
     </div>
 
+
     <!-- CODE EDITOR -->
 
     <section class="panel">
@@ -229,6 +230,7 @@
       ></textarea>
     </section>
 
+
     <!-- OUTPUT -->
 
     <section class="panel">
@@ -239,10 +241,11 @@
       </div>
     </section>
 
+
     <!-- COMMANDS -->
 
     <section class="panel">
-      <div class="panel-title">Nova v0.2 Commands</div>
+      <div class="panel-title">Nova v0.3 Commands</div>
 
       <div class="help">
 
@@ -259,7 +262,11 @@
         </div>
 
         <div>
-          <code>end</code> → ends an if block
+          <code>else</code> → runs when the if condition is false
+        </div>
+
+        <div>
+          <code>end</code> → ends an if/else block
         </div>
 
         <br>
@@ -291,6 +298,7 @@
       </div>
     </section>
 
+
     <!-- EXAMPLES -->
 
     <section class="panel">
@@ -300,6 +308,7 @@
       </div>
 
       <div class="help">
+
 
         <div class="example">
 
@@ -379,7 +388,7 @@ say age + 1</code>
 score = score + 10
 say score</code>
 
-          Variables can be changed using their existing value.
+          Changes a variable using its existing value.
 
         </div>
 
@@ -396,7 +405,7 @@ if score &gt;= 50
     say "You passed!"
 end</code>
 
-          Runs the code inside the <code>if</code> only when the condition is true.
+          Runs code only when the condition is true.
 
         </div>
 
@@ -413,7 +422,7 @@ if score &gt;= 50
     say "You passed!"
 end</code>
 
-          Since the score is below 50, the message isn't printed.
+          The code inside the if is skipped because the condition is false.
 
         </div>
 
@@ -465,7 +474,7 @@ if score &gt;= 50
     say "Great job!"
 end</code>
 
-          Multiple Nova commands can run inside the same condition.
+          Multiple commands can run inside the same condition.
 
         </div>
 
@@ -480,9 +489,48 @@ end</code>
 
 say "Nova is working!"</code>
 
-          Lines beginning with <code>#</code> are ignored by Nova.
+          Lines beginning with <code>#</code> are ignored.
 
         </div>
+
+
+        <div class="example">
+
+          <div class="example-title">
+            13. If and else
+          </div>
+
+          <code class="example-code">score = 96
+
+if score &gt;= 97
+    say "Hello"
+else
+    say "Good bye"
+end</code>
+
+          If the condition is true, Nova runs the first block. Otherwise, Nova runs the <code>else</code> block.
+
+        </div>
+
+
+        <div class="example">
+
+          <div class="example-title">
+            14. If and else with age
+          </div>
+
+          <code class="example-code">age = 14
+
+if age &gt;= 18
+    say "Adult"
+else
+    say "Not an adult"
+end</code>
+
+          Gives Nova two possible paths depending on the condition.
+
+        </div>
+
 
       </div>
     </section>
@@ -494,30 +542,35 @@ say "Nova is working!"</code>
 
     /*
       =====================================
-      NOVA v0.2 INTERPRETER
+      NOVA v0.3 INTERPRETER
       =====================================
     */
 
-    const editor = document.getElementById("editor");
-    const output = document.getElementById("output");
-    const status = document.getElementById("status");
+    const editor =
+      document.getElementById("editor");
 
-    const STORAGE_KEY = "nova-v02-code";
+    const output =
+      document.getElementById("output");
+
+    const status =
+      document.getElementById("status");
+
+    const STORAGE_KEY =
+      "nova-v03-code";
 
 
     /*
       =====================================
-      STARTER EXAMPLE
+      STARTER CODE
       =====================================
     */
 
-    const starterCode = `score = 67
+    const starterCode = `score = 96
 
-say "Your score is:"
-say score
-
-if score >= 50
-    say "You passed!"
+if score >= 97
+    say "Hello"
+else
+    say "Good bye"
 end`;
 
 
@@ -527,12 +580,19 @@ end`;
       =====================================
     */
 
-    const savedCode = localStorage.getItem(STORAGE_KEY);
+    const savedCode =
+      localStorage.getItem(
+        STORAGE_KEY
+      );
 
     if (savedCode !== null) {
+
       editor.value = savedCode;
+
     } else {
+
       editor.value = starterCode;
+
     }
 
 
@@ -544,24 +604,30 @@ end`;
 
     let saveTimer;
 
-    editor.addEventListener("input", () => {
+    editor.addEventListener(
+      "input",
+      () => {
 
-      status.textContent = "Saving...";
+        status.textContent =
+          "Saving...";
 
-      clearTimeout(saveTimer);
+        clearTimeout(saveTimer);
 
-      saveTimer = setTimeout(() => {
+        saveTimer =
+          setTimeout(() => {
 
-        localStorage.setItem(
-          STORAGE_KEY,
-          editor.value
-        );
+            localStorage.setItem(
+              STORAGE_KEY,
+              editor.value
+            );
 
-        status.textContent = "Saved automatically";
+            status.textContent =
+              "Saved automatically";
 
-      }, 400);
+          }, 400);
 
-    });
+      }
+    );
 
 
     /*
@@ -572,16 +638,20 @@ end`;
 
     document
       .getElementById("saveButton")
-      .addEventListener("click", () => {
+      .addEventListener(
+        "click",
+        () => {
 
-        localStorage.setItem(
-          STORAGE_KEY,
-          editor.value
-        );
+          localStorage.setItem(
+            STORAGE_KEY,
+            editor.value
+          );
 
-        status.textContent = "Saved!";
+          status.textContent =
+            "Saved!";
 
-      });
+        }
+      );
 
 
     /*
@@ -592,21 +662,27 @@ end`;
 
     document
       .getElementById("clearButton")
-      .addEventListener("click", () => {
+      .addEventListener(
+        "click",
+        () => {
 
-        editor.value = "";
+          editor.value = "";
 
-        localStorage.setItem(
-          STORAGE_KEY,
-          ""
-        );
+          localStorage.setItem(
+            STORAGE_KEY,
+            ""
+          );
 
-        output.textContent = "Editor cleared.";
-        output.className = "";
+          output.textContent =
+            "Editor cleared.";
 
-        status.textContent = "Saved";
+          output.className = "";
 
-      });
+          status.textContent =
+            "Saved";
+
+        }
+      );
 
 
     /*
@@ -617,23 +693,28 @@ end`;
 
     document
       .getElementById("exampleButton")
-      .addEventListener("click", () => {
+      .addEventListener(
+        "click",
+        () => {
 
-        editor.value = starterCode;
+          editor.value =
+            starterCode;
 
-        localStorage.setItem(
-          STORAGE_KEY,
-          starterCode
-        );
+          localStorage.setItem(
+            STORAGE_KEY,
+            starterCode
+          );
 
-        output.textContent =
-          "Example loaded. Press ▶ Run.";
+          output.textContent =
+            "Example loaded. Press ▶ Run.";
 
-        output.className = "";
+          output.className = "";
 
-        status.textContent = "Saved";
+          status.textContent =
+            "Saved";
 
-      });
+        }
+      );
 
 
     /*
@@ -644,7 +725,8 @@ end`;
 
     function runNova(code) {
 
-      const lines = code.split("\n");
+      const lines =
+        code.split("\n");
 
       const variables = {};
 
@@ -652,16 +734,22 @@ end`;
 
 
       /*
-        Execute a range of Nova lines.
+        Execute a range of lines.
       */
 
-      function executeLines(start, end) {
+      function executeLines(
+        start,
+        end
+      ) {
 
-        for (let i = start; i < end; i++) {
+        for (
+          let i = start;
+          i < end;
+          i++
+        ) {
 
-          const originalLine = lines[i];
-
-          const line = originalLine.trim();
+          const line =
+            lines[i].trim();
 
 
           /*
@@ -684,22 +772,27 @@ end`;
 
           /*
             =================================
-            IF STATEMENT
+            IF
             =================================
           */
 
           if (line.startsWith("if ")) {
 
             const condition =
-              line.slice(3).trim();
+              line
+                .slice(3)
+                .trim();
 
             let depth = 1;
 
             let blockEnd = -1;
 
+            let elseLine = -1;
+
 
             /*
-              Find the matching "end".
+              Find matching END
+              and ELSE.
             */
 
             for (
@@ -712,12 +805,18 @@ end`;
                 lines[j].trim();
 
 
-              if (nextLine.startsWith("if ")) {
+              if (
+                nextLine.startsWith("if ")
+              ) {
+
                 depth++;
+
               }
 
 
-              if (nextLine === "end") {
+              if (
+                nextLine === "end"
+              ) {
 
                 depth--;
 
@@ -726,13 +825,31 @@ end`;
                   blockEnd = j;
 
                   break;
+
                 }
+
               }
+
+
+              /*
+                Only recognize ELSE
+                belonging to this IF.
+              */
+
+              if (
+                nextLine === "else" &&
+                depth === 1
+              ) {
+
+                elseLine = j;
+
+              }
+
             }
 
 
             /*
-              No matching end.
+              Missing END.
             */
 
             if (blockEnd === -1) {
@@ -745,7 +862,7 @@ end`;
 
 
             /*
-              Check the condition.
+              Check condition.
             */
 
             const conditionResult =
@@ -756,13 +873,34 @@ end`;
 
 
             /*
-              Run the block if true.
+              TRUE
             */
 
             if (conditionResult) {
 
+              const trueEnd =
+                elseLine !== -1
+                  ? elseLine
+                  : blockEnd;
+
               executeLines(
                 i + 1,
+                trueEnd
+              );
+
+            }
+
+
+            /*
+              FALSE + ELSE
+            */
+
+            else if (
+              elseLine !== -1
+            ) {
+
+              executeLines(
+                elseLine + 1,
                 blockEnd
               );
 
@@ -770,12 +908,26 @@ end`;
 
 
             /*
-              Skip to the end of the block.
+              Jump past entire block.
             */
 
             i = blockEnd;
 
             continue;
+
+          }
+
+
+          /*
+            =================================
+            ELSE
+            =================================
+          */
+
+          if (line === "else") {
+
+            continue;
+
           }
 
 
@@ -798,10 +950,14 @@ end`;
             =================================
           */
 
-          if (line.startsWith("say ")) {
+          if (
+            line.startsWith("say ")
+          ) {
 
             const expression =
-              line.slice(4).trim();
+              line
+                .slice(4)
+                .trim();
 
             const value =
               evaluate(
@@ -812,6 +968,7 @@ end`;
             results.push(value);
 
             continue;
+
           }
 
 
@@ -843,6 +1000,7 @@ end`;
               );
 
             continue;
+
           }
 
 
@@ -868,6 +1026,7 @@ end`;
 
 
       return results.join("\n");
+
     }
 
 
@@ -913,7 +1072,9 @@ end`;
         )
       ) {
 
-        return Number(expression);
+        return Number(
+          expression
+        );
 
       }
 
@@ -923,23 +1084,22 @@ end`;
       */
 
       const parts =
-        splitAddition(expression);
+        splitAddition(
+          expression
+        );
 
 
       if (parts.length > 1) {
 
         const values =
-          parts.map(part =>
-            evaluate(
-              part,
-              variables
-            )
+          parts.map(
+            part =>
+              evaluate(
+                part,
+                variables
+              )
           );
 
-
-        /*
-          Numbers become math.
-        */
 
         if (
           values.every(
@@ -949,16 +1109,13 @@ end`;
         ) {
 
           return values.reduce(
-            (a, b) => a + b,
+            (a, b) =>
+              a + b,
             0
           );
 
         }
 
-
-        /*
-          Text gets joined.
-        */
 
         return values.join("");
 
@@ -1105,7 +1262,8 @@ end`;
 
       let current = "";
 
-      let insideString = false;
+      let insideString =
+        false;
 
 
       for (
@@ -1170,53 +1328,52 @@ end`;
 
     document
       .getElementById("runButton")
-      .addEventListener("click", () => {
+      .addEventListener(
+        "click",
+        () => {
 
-        output.className = "";
-
-
-        try {
-
-          const result =
-            runNova(
-              editor.value
-            );
+          output.className = "";
 
 
-          output.textContent =
-            result === ""
-              ? "Program finished with no output."
-              : result;
+          try {
+
+            const result =
+              runNova(
+                editor.value
+              );
 
 
-          output.className =
-            "success";
+            output.textContent =
+              result === ""
+                ? "Program finished with no output."
+                : result;
 
-        } catch (error) {
 
-          output.textContent =
-            "❌ Nova Error\n\n" +
-            error.message;
+            output.className =
+              "success";
 
-          output.className =
-            "error";
+          } catch (error) {
+
+            output.textContent =
+              "❌ Nova Error\n\n" +
+              error.message;
+
+            output.className =
+              "error";
+
+          }
+
+
+          localStorage.setItem(
+            STORAGE_KEY,
+            editor.value
+          );
+
+          status.textContent =
+            "Saved";
 
         }
-
-
-        /*
-          Save whenever Nova runs.
-        */
-
-        localStorage.setItem(
-          STORAGE_KEY,
-          editor.value
-        );
-
-        status.textContent =
-          "Saved";
-
-      });
+      );
 
 
     /*
