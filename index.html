@@ -1,0 +1,614 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nova Playground</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0d1117;
+      color: #f0f6fc;
+      min-height: 100vh;
+    }
+
+    header {
+      padding: 20px;
+      border-bottom: 1px solid #30363d;
+      background: #161b22;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    header p {
+      margin: 6px 0 0;
+      color: #8b949e;
+    }
+
+    .container {
+      width: min(1100px, 94%);
+      margin: 24px auto;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 8px;
+      padding: 11px 16px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #runButton {
+      background: #238636;
+      color: white;
+    }
+
+    #saveButton {
+      background: #1f6feb;
+      color: white;
+    }
+
+    #clearButton {
+      background: #30363d;
+      color: white;
+    }
+
+    #exampleButton {
+      background: #6e40c9;
+      color: white;
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    .status {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      color: #8b949e;
+      font-size: 13px;
+    }
+
+    .panel {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .panel-title {
+      padding: 12px 15px;
+      border-bottom: 1px solid #30363d;
+      font-weight: bold;
+      color: #c9d1d9;
+    }
+
+    textarea {
+      display: block;
+      width: 100%;
+      min-height: 360px;
+      resize: vertical;
+      border: 0;
+      outline: 0;
+      padding: 18px;
+      background: #0d1117;
+      color: #f0f6fc;
+      font-family: "Courier New", monospace;
+      font-size: 16px;
+      line-height: 1.6;
+      tab-size: 4;
+    }
+
+    #output {
+      min-height: 180px;
+      padding: 18px;
+      background: #0d1117;
+      font-family: "Courier New", monospace;
+      white-space: pre-wrap;
+      overflow-wrap: break-word;
+      color: #f0f6fc;
+    }
+
+    .error {
+      color: #ff7b72;
+    }
+
+    .success {
+      color: #7ee787;
+    }
+
+    .help {
+      padding: 18px;
+      color: #8b949e;
+      line-height: 1.6;
+    }
+
+    code {
+      color: #79c0ff;
+      font-family: "Courier New", monospace;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 24px;
+      }
+
+      textarea {
+        min-height: 300px;
+        font-size: 15px;
+      }
+
+      .status {
+        width: 100%;
+        margin-left: 0;
+      }
+
+      button {
+        flex: 1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>🚀 Nova Playground</h1>
+    <p>Nova v0.1 • Your first programming language</p>
+  </header>
+
+  <main class="container">
+
+    <div class="toolbar">
+      <button id="runButton">▶ Run</button>
+      <button id="saveButton">💾 Save</button>
+      <button id="clearButton">🗑 Clear</button>
+      <button id="exampleButton">✨ Example</button>
+
+      <div class="status" id="status">
+        Saved automatically
+      </div>
+    </div>
+
+    <section class="panel">
+      <div class="panel-title">Nova Code</div>
+
+      <textarea
+        id="editor"
+        spellcheck="false"
+        autocapitalize="off"
+        autocomplete="off"
+        autocorrect="off"
+      ></textarea>
+    </section>
+
+    <section class="panel">
+      <div class="panel-title">Output</div>
+      <div id="output">Press ▶ Run to run your Nova program.</div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-title">Nova v0.1 Commands</div>
+
+      <div class="help">
+        <div><code>say "Hello!"</code> → prints text</div>
+        <div><code>name = "Alex"</code> → creates a variable</div>
+        <div><code>say name</code> → prints a variable</div>
+        <div><code>age = 14</code> → creates a number</div>
+        <div><code>say age + 1</code> → basic math</div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    /*
+      =====================================
+      NOVA v0.1 INTERPRETER
+      =====================================
+    */
+
+    const editor = document.getElementById("editor");
+    const output = document.getElementById("output");
+    const status = document.getElementById("status");
+
+    const STORAGE_KEY = "nova-v01-code";
+
+    const starterCode = `say "Hello, world!"
+say "Nova is working!"
+
+name = "Alex"
+age = 14
+
+say name
+say age + 1`;
+
+    /*
+      Load saved Nova code.
+    */
+
+    const savedCode = localStorage.getItem(STORAGE_KEY);
+
+    if (savedCode !== null) {
+      editor.value = savedCode;
+    } else {
+      editor.value = starterCode;
+    }
+
+    /*
+      Automatically save while typing.
+    */
+
+    let saveTimer;
+
+    editor.addEventListener("input", () => {
+      status.textContent = "Saving...";
+
+      clearTimeout(saveTimer);
+
+      saveTimer = setTimeout(() => {
+        localStorage.setItem(STORAGE_KEY, editor.value);
+        status.textContent = "Saved automatically";
+      }, 400);
+    });
+
+    /*
+      Manual save.
+    */
+
+    document.getElementById("saveButton").addEventListener("click", () => {
+      localStorage.setItem(STORAGE_KEY, editor.value);
+
+      status.textContent = "Saved!";
+    });
+
+    /*
+      Clear the editor.
+    */
+
+    document.getElementById("clearButton").addEventListener("click", () => {
+      editor.value = "";
+
+      localStorage.setItem(STORAGE_KEY, "");
+
+      output.textContent = "Editor cleared.";
+      output.className = "";
+
+      status.textContent = "Saved";
+    });
+
+    /*
+      Put the starter example back.
+    */
+
+    document.getElementById("exampleButton").addEventListener("click", () => {
+      editor.value = starterCode;
+
+      localStorage.setItem(STORAGE_KEY, starterCode);
+
+      output.textContent = "Example loaded. Press ▶ Run.";
+      output.className = "";
+
+      status.textContent = "Saved";
+    });
+
+    /*
+      =====================================
+      NOVA INTERPRETER
+      =====================================
+    */
+
+    function runNova(code) {
+
+      const lines = code.split("\n");
+
+      const variables = {};
+
+      const results = [];
+
+      for (let lineNumber = 0; lineNumber < lines.length; lineNumber++) {
+
+        const originalLine = lines[lineNumber];
+
+        const line = originalLine.trim();
+
+        /*
+          Ignore empty lines.
+        */
+
+        if (line === "") {
+          continue;
+        }
+
+        /*
+          Ignore comments.
+        */
+
+        if (line.startsWith("#")) {
+          continue;
+        }
+
+        /*
+          =================================
+          SAY
+          =================================
+
+          Example:
+
+          say "Hello!"
+
+          or:
+
+          say name
+        */
+
+        if (line.startsWith("say ")) {
+
+          const expression = line.slice(4).trim();
+
+          const value = evaluate(expression, variables);
+
+          results.push(value);
+
+          continue;
+        }
+
+        /*
+          =================================
+          VARIABLE
+          =================================
+
+          Example:
+
+          name = "Alex"
+          age = 14
+        */
+
+        const assignment = line.match(/^([a-zA-Z_][a-zA-Z0-9_]*)\s*=\s*(.+)$/);
+
+        if (assignment) {
+
+          const variableName = assignment[1];
+          const expression = assignment[2];
+
+          variables[variableName] = evaluate(expression, variables);
+
+          continue;
+        }
+
+        /*
+          If Nova doesn't understand the command,
+          show a friendly error.
+        */
+
+        throw new Error(
+          `Line ${lineNumber + 1}: I don't understand "${line}".`
+        );
+      }
+
+      return results.join("\n");
+    }
+
+
+    /*
+      =====================================
+      EXPRESSION EVALUATOR
+      =====================================
+    */
+
+    function evaluate(expression, variables) {
+
+      expression = expression.trim();
+
+      /*
+        String
+        Example:
+
+        "Hello"
+      */
+
+      if (
+        expression.startsWith('"') &&
+        expression.endsWith('"')
+      ) {
+        return expression.slice(1, -1);
+      }
+
+      /*
+        Number
+        Example:
+
+        14
+      */
+
+      if (/^-?\d+(\.\d+)?$/.test(expression)) {
+        return Number(expression);
+      }
+
+      /*
+        Simple addition.
+
+        Example:
+
+        age + 1
+
+        name + "!"
+      */
+
+      const parts = splitAddition(expression);
+
+      if (parts.length > 1) {
+
+        const values = parts.map(part => {
+          return evaluate(part, variables);
+        });
+
+        /*
+          If everything is numbers,
+          do mathematical addition.
+        */
+
+        if (values.every(value => typeof value === "number")) {
+          return values.reduce((a, b) => a + b, 0);
+        }
+
+        /*
+          Otherwise turn it into text.
+        */
+
+        return values.join("");
+      }
+
+      /*
+        Variable
+        Example:
+
+        name
+        age
+      */
+
+      if (Object.prototype.hasOwnProperty.call(variables, expression)) {
+        return variables[expression];
+      }
+
+      /*
+        Unknown value.
+      */
+
+      throw new Error(
+        `I don't know what "${expression}" means.`
+      );
+    }
+
+
+    /*
+      Split + signs without breaking
+      plus signs inside quotation marks.
+    */
+
+    function splitAddition(text) {
+
+      const parts = [];
+      let current = "";
+      let insideString = false;
+
+      for (let i = 0; i < text.length; i++) {
+
+        const char = text[i];
+
+        if (char === '"') {
+          insideString = !insideString;
+        }
+
+        if (char === "+" && !insideString) {
+
+          parts.push(current.trim());
+          current = "";
+
+        } else {
+
+          current += char;
+        }
+      }
+
+      if (current.trim() !== "") {
+        parts.push(current.trim());
+      }
+
+      return parts;
+    }
+
+
+    /*
+      =====================================
+      RUN BUTTON
+      =====================================
+    */
+
+    document.getElementById("runButton").addEventListener("click", () => {
+
+      output.className = "";
+
+      try {
+
+        const result = runNova(editor.value);
+
+        output.textContent =
+          result === ""
+            ? "Program finished with no output."
+            : result;
+
+        output.className = "success";
+
+      } catch (error) {
+
+        output.textContent = "❌ Nova Error\n\n" + error.message;
+
+        output.className = "error";
+      }
+
+      /*
+        Save whenever the program is run.
+      */
+
+      localStorage.setItem(STORAGE_KEY, editor.value);
+
+      status.textContent = "Saved";
+    });
+
+
+    /*
+      =====================================
+      TAB KEY
+      =====================================
+
+      Pressing Tab inside the editor
+      inserts spaces instead of leaving
+      the page.
+    */
+
+    editor.addEventListener("keydown", (event) => {
+
+      if (event.key === "Tab") {
+
+        event.preventDefault();
+
+        const start = editor.selectionStart;
+        const end = editor.selectionEnd;
+
+        editor.value =
+          editor.value.substring(0, start) +
+          "    " +
+          editor.value.substring(end);
+
+        editor.selectionStart = start + 4;
+        editor.selectionEnd = start + 4;
+
+        localStorage.setItem(STORAGE_KEY, editor.value);
+      }
+    });
+  </script>
+
+</body>
+</html>
+```
