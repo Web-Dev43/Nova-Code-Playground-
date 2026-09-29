@@ -141,8 +141,11 @@
       background: #da3633;
     }
 
-    .hidden {
-      display: none;
+    code {
+      background: #21262d;
+      padding: 2px 5px;
+      border-radius: 4px;
+      color: #79c0ff;
     }
 
     @media (max-width: 600px) {
@@ -176,8 +179,8 @@
       </button>
 
       <button class="topic" onclick="showLesson('math')">
-        <strong>🔢 Numbers & Math</strong>
-        <span>Work with numbers and calculations.</span>
+        <strong>🧮 Math</strong>
+        <span>Learn Nova's math operators.</span>
       </button>
 
       <button class="topic" onclick="showLesson('conditions')">
@@ -232,26 +235,74 @@ say score</pre>
   </div>
 
   <div id="math" class="lesson">
-    <h2>🔢 Numbers & Math</h2>
+    <h2>🧮 Math</h2>
 
     <p>
-      Nova can work with numbers and addition.
+      Nova can do the basic math operations you just learned.
     </p>
 
-    <pre>score = 90
+    <h3>➕ Addition</h3>
 
-score = score + 5
-
-say score</pre>
+    <pre>say 10 + 5</pre>
 
     <p>
-      The output is:
+      10 plus 5 equals 15.
     </p>
 
-    <pre>95</pre>
+    <h3>➖ Subtraction</h3>
 
-    <button class="try" onclick="tryCode('x = 10\nx = x + 5\nsay x')">
-      ▶ Try this in Playground
+    <pre>say 10 - 3</pre>
+
+    <p>
+      10 minus 3 equals 7.
+    </p>
+
+    <h3>✖️ Multiplication</h3>
+
+    <pre>say 4 * 3</pre>
+
+    <p>
+      The <code>*</code> symbol means multiply. 4 times 3 equals 12.
+    </p>
+
+    <h3>➗ Division</h3>
+
+    <pre>say 12 / 3</pre>
+
+    <p>
+      The <code>/</code> symbol means divide. 12 divided by 3 equals 4.
+    </p>
+
+    <h3>🔢 Remainder</h3>
+
+    <p>
+      The <code>%</code> symbol finds what is left over after division.
+    </p>
+
+    <pre>say 10 % 4</pre>
+
+    <p>
+      4 fits into 10 two times, which is 8. There are 2 left over.
+    </p>
+
+    <pre>10 % 4 = 2</pre>
+
+    <h3>🧠 Quick Check</h3>
+
+    <div class="quiz">
+      <p>What is <code>12 % 4</code>?</p>
+
+      <div class="answers">
+        <button onclick="answer(this, false)">2</button>
+        <button onclick="answer(this, true)">0</button>
+        <button onclick="answer(this, false)">4</button>
+      </div>
+
+      <p id="quizResult"></p>
+    </div>
+
+    <button class="try" onclick="tryCode('x = 20\n\nsay x - 5\nsay x * 2\nsay x / 4\nsay x % 3')">
+      ▶ Try the math example
     </button>
   </div>
 
@@ -300,7 +351,7 @@ end</pre>
         <button onclick="answer(this, false)">F</button>
       </div>
 
-      <p id="quizResult"></p>
+      <p id="conditionResult"></p>
     </div>
 
     <button class="try" onclick="tryCode('score = 85\n\nif score >= 90\n    say &quot;A&quot;\nelseif score >= 80\n    say &quot;B&quot;\nelse\n    say &quot;F&quot;\nend')">
@@ -350,15 +401,14 @@ say name</pre>
     <h2>🚀 What's Next?</h2>
 
     <p>
-      Nova is still growing. The next features can make it much more
-      powerful.
+      Nova is still growing. Future features can include:
     </p>
 
-    <pre>Loops
+    <pre>Boolean logic
+Loops
 Functions
 Lists
-More math
-Boolean logic
+More string tools
 Better errors
 Nova CLI
 NovaBot 🤖</pre>
@@ -382,7 +432,9 @@ NovaBot 🤖</pre>
   }
 
   function answer(button, correct) {
-    const result = document.getElementById("quizResult");
+    const result =
+      document.getElementById("quizResult") ||
+      document.getElementById("conditionResult");
 
     document.querySelectorAll(".answers button").forEach(btn => {
       btn.classList.remove("correct", "wrong");
@@ -390,15 +442,15 @@ NovaBot 🤖</pre>
 
     if (correct) {
       button.classList.add("correct");
-      result.textContent = "✅ Correct! Nova uses the elseif because 75 is at least 70.";
+      result.textContent = "✅ Correct!";
     } else {
       button.classList.add("wrong");
-      result.textContent = "❌ Not quite. Check the conditions from top to bottom.";
+      result.textContent = "❌ Not quite. Try thinking about the remainder.";
     }
   }
 
   function tryCode(code) {
-    localStorage.setItem("nova-v04-code", code);
+    localStorage.setItem("nova-v05-code", code);
     location.href = "index.html";
   }
 </script>
