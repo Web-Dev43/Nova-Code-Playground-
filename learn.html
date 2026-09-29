@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learn Nova</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #0d1117;
+      color: #f0f6fc;
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      padding: 20px;
+      text-align: center;
+      background: #161b22;
+      border-bottom: 1px solid #30363d;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 27px;
+    }
+
+    header p {
+      color: #8b949e;
+      margin-bottom: 0;
+    }
+
+    .container {
+      max-width: 850px;
+      margin: auto;
+      padding: 18px;
+    }
+
+    .back {
+      width: 100%;
+      margin-bottom: 18px;
+    }
+
+    .topics {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .topic {
+      text-align: left;
+      min-height: 95px;
+      padding: 15px;
+    }
+
+    .topic strong {
+      display: block;
+      font-size: 17px;
+      margin-bottom: 7px;
+    }
+
+    .topic span {
+      color: #8b949e;
+      font-size: 13px;
+    }
+
+    button {
+      background: #21262d;
+      color: #f0f6fc;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 11px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    button:hover {
+      background: #30363d;
+    }
+
+    .lesson {
+      display: none;
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      padding: 18px;
+    }
+
+    .lesson.active {
+      display: block;
+    }
+
+    .lesson h2 {
+      margin-top: 0;
+    }
+
+    .lesson p {
+      line-height: 1.6;
+      color: #c9d1d9;
+    }
+
+    pre {
+      background: #010409;
+      border: 1px solid #30363d;
+      padding: 14px;
+      border-radius: 8px;
+      overflow-x: auto;
+      color: #79c0ff;
+      line-height: 1.5;
+    }
+
+    .try {
+      margin-top: 15px;
+      width: 100%;
+      background: #238636;
+      border-color: #2ea043;
+    }
+
+    .quiz {
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+    }
+
+    .answers {
+      display: grid;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .correct {
+      background: #238636;
+    }
+
+    .wrong {
+      background: #da3633;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .topics {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>📚 Nova Learn</h1>
+  <p>Learn how to code with Nova</p>
+</header>
+
+<div class="container">
+
+  <button class="back" onclick="location.href='index.html'">
+    ← Back to Playground
+  </button>
+
+  <div id="menu">
+
+    <div class="topics">
+
+      <button class="topic" onclick="showLesson('variables')">
+        <strong>📦 Variables</strong>
+        <span>Store information and values.</span>
+      </button>
+
+      <button class="topic" onclick="showLesson('math')">
+        <strong>🔢 Numbers & Math</strong>
+        <span>Work with numbers and calculations.</span>
+      </button>
+
+      <button class="topic" onclick="showLesson('conditions')">
+        <strong>🔀 Conditions</strong>
+        <span>Make Nova make decisions.</span>
+      </button>
+
+      <button class="topic" onclick="showLesson('comments')">
+        <strong>💬 Comments</strong>
+        <span>Write notes inside your code.</span>
+      </button>
+
+      <button class="topic" onclick="showLesson('say')">
+        <strong>📢 Say</strong>
+        <span>Make Nova output something.</span>
+      </button>
+
+      <button class="topic" onclick="showLesson('next')">
+        <strong>🚀 What's Next?</strong>
+        <span>See where Nova is going.</span>
+      </button>
+
+    </div>
+
+  </div>
+
+  <div id="variables" class="lesson">
+    <h2>📦 Variables</h2>
+
+    <p>
+      Variables let you store information so you can use it later.
+    </p>
+
+    <pre>name = "Alex"
+age = 14
+
+say name
+say age</pre>
+
+    <p>
+      You can also change a variable:
+    </p>
+
+    <pre>score = 50
+score = score + 10
+
+say score</pre>
+
+    <button class="try" onclick="tryCode('name = &quot;Nova&quot;\nsay name')">
+      ▶ Try this in Playground
+    </button>
+  </div>
+
+  <div id="math" class="lesson">
+    <h2>🔢 Numbers & Math</h2>
+
+    <p>
+      Nova can work with numbers and addition.
+    </p>
+
+    <pre>score = 90
+
+score = score + 5
+
+say score</pre>
+
+    <p>
+      The output is:
+    </p>
+
+    <pre>95</pre>
+
+    <button class="try" onclick="tryCode('x = 10\nx = x + 5\nsay x')">
+      ▶ Try this in Playground
+    </button>
+  </div>
+
+  <div id="conditions" class="lesson">
+    <h2>🔀 Conditions</h2>
+
+    <p>
+      Conditions let Nova choose what code should run.
+    </p>
+
+    <pre>score = 85
+
+if score >= 90
+    say "A"
+elseif score >= 80
+    say "B"
+else
+    say "F"
+end</pre>
+
+    <p>
+      Nova checks the conditions from top to bottom. The first condition
+      that is true gets executed.
+    </p>
+
+    <div class="quiz">
+      <strong>🧠 Quick Check</strong>
+
+      <p>
+        What will this code print?
+      </p>
+
+      <pre>score = 75
+
+if score >= 90
+    say "A"
+elseif score >= 70
+    say "C"
+else
+    say "F"
+end</pre>
+
+      <div class="answers">
+        <button onclick="answer(this, true)">C</button>
+        <button onclick="answer(this, false)">A</button>
+        <button onclick="answer(this, false)">F</button>
+      </div>
+
+      <p id="quizResult"></p>
+    </div>
+
+    <button class="try" onclick="tryCode('score = 85\n\nif score >= 90\n    say &quot;A&quot;\nelseif score >= 80\n    say &quot;B&quot;\nelse\n    say &quot;F&quot;\nend')">
+      ▶ Try this in Playground
+    </button>
+  </div>
+
+  <div id="comments" class="lesson">
+    <h2>💬 Comments</h2>
+
+    <p>
+      Comments are notes for humans. Nova ignores them when the program runs.
+    </p>
+
+    <pre># This is a comment
+
+say "Hello!"</pre>
+
+    <button class="try" onclick="tryCode('# My first Nova program\nsay &quot;Hello!&quot;')">
+      ▶ Try this in Playground
+    </button>
+  </div>
+
+  <div id="say" class="lesson">
+    <h2>📢 Say</h2>
+
+    <p>
+      The <code>say</code> command prints something to the output.
+    </p>
+
+    <pre>say "Hello Nova!"</pre>
+
+    <p>
+      You can also say the value of a variable:
+    </p>
+
+    <pre>name = "Nova"
+
+say name</pre>
+
+    <button class="try" onclick="tryCode('say &quot;Hello Nova!&quot;')">
+      ▶ Try this in Playground
+    </button>
+  </div>
+
+  <div id="next" class="lesson">
+    <h2>🚀 What's Next?</h2>
+
+    <p>
+      Nova is still growing. The next features can make it much more
+      powerful.
+    </p>
+
+    <pre>Loops
+Functions
+Lists
+More math
+Boolean logic
+Better errors
+Nova CLI
+NovaBot 🤖</pre>
+
+    <p>
+      Every time a new Nova feature is added, its example will also appear
+      in the Playground's Examples section.
+    </p>
+  </div>
+
+</div>
+
+<script>
+  function showLesson(id) {
+    document.querySelectorAll(".lesson").forEach(lesson => {
+      lesson.classList.remove("active");
+    });
+
+    document.getElementById("menu").style.display = "none";
+    document.getElementById(id).classList.add("active");
+  }
+
+  function answer(button, correct) {
+    const result = document.getElementById("quizResult");
+
+    document.querySelectorAll(".answers button").forEach(btn => {
+      btn.classList.remove("correct", "wrong");
+    });
+
+    if (correct) {
+      button.classList.add("correct");
+      result.textContent = "✅ Correct! Nova uses the elseif because 75 is at least 70.";
+    } else {
+      button.classList.add("wrong");
+      result.textContent = "❌ Not quite. Check the conditions from top to bottom.";
+    }
+  }
+
+  function tryCode(code) {
+    localStorage.setItem("nova-v04-code", code);
+    location.href = "index.html";
+  }
+</script>
+
+</body>
+</html>
