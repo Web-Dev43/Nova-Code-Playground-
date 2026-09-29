@@ -1,753 +1,1052 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nova Playground</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nova Playground</title>
 
-  <style>
+<style>
     * {
-      box-sizing: border-box;
+        box-sizing: border-box;
     }
 
     body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0d1117;
-      color: #f0f6fc;
+        margin: 0;
+        background: #0d1117;
+        color: #e6edf3;
+        font-family: Arial, sans-serif;
     }
 
     header {
-      padding: 20px;
-      background: #161b22;
-      border-bottom: 1px solid #30363d;
-      text-align: center;
+        background: #161b22;
+        padding: 18px;
+        text-align: center;
+        border-bottom: 1px solid #30363d;
     }
 
     header h1 {
-      margin: 0;
-      font-size: 25px;
+        margin: 0;
+        font-size: 24px;
     }
 
     header p {
-      margin: 7px 0 0;
-      color: #8b949e;
+        margin: 6px 0 0;
+        color: #8b949e;
+        font-size: 14px;
     }
 
-    .container {
-      max-width: 900px;
-      margin: auto;
-      padding: 18px;
+    main {
+        max-width: 900px;
+        margin: auto;
+        padding: 16px;
     }
 
     .buttons {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
-      margin-bottom: 12px;
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 10px;
     }
 
     button {
-      border: 1px solid #30363d;
-      background: #21262d;
-      color: #f0f6fc;
-      padding: 11px;
-      border-radius: 8px;
-      font-size: 14px;
-      cursor: pointer;
+        border: 1px solid #30363d;
+        background: #21262d;
+        color: #e6edf3;
+        padding: 10px 14px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
     }
 
     button:hover {
-      background: #30363d;
+        background: #30363d;
     }
 
-    .learn-btn {
-      grid-column: 1 / -1;
-      background: #238636;
-      border-color: #2ea043;
-      font-weight: bold;
+    .primary {
+        background: #238636;
+        border-color: #2ea043;
+    }
+
+    .primary:hover {
+        background: #2ea043;
     }
 
     textarea {
-      width: 100%;
-      min-height: 320px;
-      resize: vertical;
-      background: #010409;
-      color: #f0f6fc;
-      border: 1px solid #30363d;
-      border-radius: 8px;
-      padding: 15px;
-      font-family: monospace;
-      font-size: 15px;
-      line-height: 1.5;
-      outline: none;
+        width: 100%;
+        min-height: 330px;
+        resize: vertical;
+        background: #010409;
+        color: #e6edf3;
+        border: 1px solid #30363d;
+        border-radius: 8px;
+        padding: 15px;
+        font-family: monospace;
+        font-size: 15px;
+        line-height: 1.5;
+        outline: none;
     }
 
     textarea:focus {
-      border-color: #58a6ff;
-    }
-
-    .panel {
-      margin-top: 15px;
-      background: #161b22;
-      border: 1px solid #30363d;
-      border-radius: 8px;
-      padding: 15px;
-    }
-
-    .panel h2 {
-      margin-top: 0;
-      font-size: 18px;
-    }
-
-    #output {
-      white-space: pre-wrap;
-      min-height: 70px;
-      font-family: monospace;
-    }
-
-    .error {
-      color: #ff7b72 !important;
-    }
-
-    .success {
-      color: #7ee787;
-    }
-
-    .command {
-      padding: 7px 0;
-      border-bottom: 1px solid #21262d;
-    }
-
-    .command:last-child {
-      border-bottom: none;
-    }
-
-    code {
-      background: #21262d;
-      padding: 2px 5px;
-      border-radius: 4px;
-      color: #79c0ff;
-    }
-
-    .example {
-      margin-top: 12px;
-      padding: 12px;
-      background: #010409;
-      border: 1px solid #30363d;
-      border-radius: 7px;
-      white-space: pre-wrap;
-      font-family: monospace;
-      color: #c9d1d9;
+        border-color: #58a6ff;
     }
 
     .status {
-      color: #8b949e;
-      font-size: 12px;
-      margin: 7px 0;
+        color: #8b949e;
+        font-size: 13px;
+        margin: 8px 0 14px;
     }
-  </style>
+
+    .panel {
+        background: #161b22;
+        border: 1px solid #30363d;
+        border-radius: 8px;
+        padding: 15px;
+        margin-top: 16px;
+    }
+
+    .panel h2 {
+        margin-top: 0;
+        font-size: 18px;
+    }
+
+    pre {
+        background: #010409;
+        border: 1px solid #30363d;
+        padding: 12px;
+        border-radius: 7px;
+        overflow-x: auto;
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
+
+    code {
+        font-family: monospace;
+    }
+
+    .command {
+        margin-bottom: 12px;
+    }
+
+    .command strong {
+        color: #58a6ff;
+    }
+
+    .example {
+        margin-bottom: 18px;
+    }
+
+    .example-title {
+        font-weight: bold;
+        margin-bottom: 6px;
+    }
+
+    @media (max-width: 600px) {
+        main {
+            padding: 10px;
+        }
+
+        textarea {
+            min-height: 280px;
+            font-size: 14px;
+        }
+
+        button {
+            flex: 1;
+        }
+    }
+</style>
 </head>
 
 <body>
 
 <header>
-  <h1>🚀 Nova Playground</h1>
-  <p>Nova v0.5</p>
+    <h1>🚀 Nova Playground</h1>
+    <p>Nova v0.6</p>
 </header>
 
-<div class="container">
+<main>
 
-  <div class="buttons">
-    <button onclick="runNova()">▶ Run</button>
-    <button onclick="saveCode()">💾 Save</button>
-    <button onclick="clearCode()">🗑 Clear</button>
-    <button onclick="loadExample()">✨ Example</button>
+    <div class="buttons">
+        <button class="primary" onclick="runNova()">▶ Run</button>
+        <button onclick="saveCode()">💾 Save</button>
+        <button onclick="clearCode()">🗑 Clear</button>
+        <button onclick="loadExample()">✨ Example</button>
+        <button onclick="location.href='learn.html'">📚 Learn Nova</button>
+    </div>
 
-    <button class="learn-btn" onclick="location.href='learn.html'">
-      📚 Learn Nova
-    </button>
-  </div>
+    <div class="status" id="status">Auto-save ready</div>
 
-  <div class="status" id="status">Ready</div>
+    <textarea id="editor">score = 85
 
-  <textarea id="editor" spellcheck="false">x = 20
+if score >= 70 and score <= 100
+    say "Valid score"
+end</textarea>
 
+    <div class="panel">
+        <h2>📤 Output</h2>
+        <pre id="output"></pre>
+    </div>
+
+    <div class="panel">
+        <h2>📖 Nova v0.6 Commands</h2>
+
+        <div class="command">
+            <strong>say</strong>
+            <br>
+            Prints text, variables, or calculations.
+            <pre><code>say "Hello"
+say 5 + 3</code></pre>
+        </div>
+
+        <div class="command">
+            <strong>Variables</strong>
+            <br>
+            Store information in a name.
+            <pre><code>name = "Alex"
+age = 14
+say name</code></pre>
+        </div>
+
+        <div class="command">
+            <strong>Math</strong>
+            <br>
+            Nova supports +, -, *, /, and %.
+            <pre><code>x = 20
+say x + 5
 say x - 5
 say x * 2
 say x / 4
-say x % 3</textarea>
+say x % 3</code></pre>
+        </div>
 
-  <div class="panel">
-    <h2>🖥 Output</h2>
-    <div id="output"></div>
-  </div>
-
-  <div class="panel">
-    <h2>📖 Nova v0.5 Commands</h2>
-
-    <div class="command"><code>say</code> - print text or a value</div>
-    <div class="command"><code>name = "Alex"</code> - create a variable</div>
-    <div class="command"><code>age = 14</code> - create a number variable</div>
-    <div class="command"><code>score = score + 10</code> - change a variable</div>
-    <div class="command"><code># comment</code> - add a comment</div>
-    <div class="command"><code>if</code> - check a condition</div>
-    <div class="command"><code>elseif</code> - check another condition</div>
-    <div class="command"><code>else</code> - run when previous conditions fail</div>
-    <div class="command"><code>end</code> - finish an if block</div>
-
-    <br>
-
-    <div class="command">
-      Comparisons:
-      <code>==</code>
-      <code>!=</code>
-      <code>&gt;</code>
-      <code>&lt;</code>
-      <code>&gt;=</code>
-      <code>&lt;=</code>
-    </div>
-
-    <div class="command">
-      Math:
-      <code>+</code>
-      <code>-</code>
-      <code>*</code>
-      <code>/</code>
-      <code>%</code>
-    </div>
-  </div>
-
-  <div class="panel">
-    <h2>💡 Examples</h2>
-
-    <div class="example">say "Hello Nova!"</div>
-
-    <div class="example">name = "Alex"
-say name</div>
-
-    <div class="example">age = 14
-say age + 1</div>
-
-    <div class="example">x = 20
-
-say x - 5
-say x * 2
-say x / 4
-say x % 3</div>
-
-    <div class="example">score = 50
-score = score + 10
-score = score - 5
-say score</div>
-
-    <div class="example"># This is a comment
-say "Comments don't run"</div>
-
-    <div class="example">score = 100
-
-if score >= 90
-    say "Excellent!"
-end</div>
-
-    <div class="example">score = 50
+        <div class="command">
+            <strong>Conditions</strong>
+            <br>
+            Use if, elseif, else, and end.
+            <pre><code>score = 80
 
 if score >= 70
-    say "Passed!"
+    say "Passed"
 else
-    say "Failed!"
-end</div>
+    say "Try again"
+end</code></pre>
+        </div>
 
-    <div class="example">score = 85
+        <div class="command">
+            <strong>Comparisons</strong>
+            <br>
+            Use ==, !=, &gt;, &lt;, &gt;=, and &lt;=.
+        </div>
+
+        <div class="command">
+            <strong>Boolean Logic</strong>
+            <br>
+            Use and, or, and not.
+            <pre><code>age = 14
+
+if age >= 13 and age <= 17
+    say "Teen"
+end</code></pre>
+        </div>
+
+        <div class="command">
+            <strong>Boolean Values</strong>
+            <br>
+            Nova supports true and false.
+            <pre><code>has_ticket = true
+
+if has_ticket == true
+    say "You can enter"
+end</code></pre>
+        </div>
+
+        <div class="command">
+            <strong>Comments</strong>
+            <br>
+            Lines beginning with # are ignored.
+            <pre><code># This is a comment
+say "Hello"</code></pre>
+        </div>
+    </div>
+
+    <div class="panel">
+        <h2>🧪 Examples</h2>
+
+        <div class="example">
+            <div class="example-title">1. Variables</div>
+            <pre><code>name = "Alex"
+age = 14
+
+say name
+say age</code></pre>
+        </div>
+
+        <div class="example">
+            <div class="example-title">2. Addition</div>
+            <pre><code>x = 10
+say x + 5</code></pre>
+        </div>
+
+        <div class="example">
+            <div class="example-title">3. Subtraction</div>
+            <pre><code>x = 10
+say x - 3</code></pre>
+        </div>
+
+        <div class="example">
+            <div class="example-title">4. Multiplication</div>
+            <pre><code>x = 4
+say x * 3</code></pre>
+        </div>
+
+        <div class="example">
+            <div class="example-title">5. Division</div>
+            <pre><code>x = 12
+say x / 3</code></pre>
+        </div>
+
+        <div class="example">
+            <div class="example-title">6. Remainder</div>
+            <pre><code>say 10 % 4</code></pre>
+        </div>
+
+        <div class="example">
+            <div class="example-title">7. If</div>
+            <pre><code>score = 80
+
+if score >= 70
+    say "Passed"
+end</code></pre>
+        </div>
+
+        <div class="example">
+            <div class="example-title">8. If / Else</div>
+            <pre><code>score = 50
+
+if score >= 70
+    say "Passed"
+else
+    say "Try again"
+end</code></pre>
+        </div>
+
+        <div class="example">
+            <div class="example-title">9. If / Elseif / Else</div>
+            <pre><code>score = 85
 
 if score >= 90
-    say "A"
-elseif score >= 80
-    say "B"
+    say "Excellent"
 elseif score >= 70
-    say "C"
+    say "Passed"
 else
-    say "F"
-end</div>
-  </div>
+    say "Try again"
+end</code></pre>
+        </div>
 
-</div>
+        <div class="example">
+            <div class="example-title">10. AND</div>
+            <pre><code>age = 14
+
+if age >= 13 and age <= 17
+    say "Teen"
+end</code></pre>
+        </div>
+
+        <div class="example">
+            <div class="example-title">11. OR</div>
+            <pre><code>age = 20
+
+if age < 13 or age > 18
+    say "Not a teenager"
+end</code></pre>
+        </div>
+
+        <div class="example">
+            <div class="example-title">12. NOT</div>
+            <pre><code>score = 75
+
+if not score == 100
+    say "Not perfect"
+end</code></pre>
+        </div>
+
+        <div class="example">
+            <div class="example-title">13. AND + OR</div>
+            <pre><code>age = 14
+has_ticket = false
+with_parent = true
+
+if (age >= 13 and has_ticket == true) or with_parent == true
+    say "You can enter"
+end</code></pre>
+        </div>
+
+        <div class="example">
+            <div class="example-title">14. Boolean Values</div>
+            <pre><code>has_ticket = true
+
+if has_ticket == true
+    say "You can enter"
+end</code></pre>
+        </div>
+
+        <div class="example">
+            <div class="example-title">15. Comments</div>
+            <pre><code># Nova ignores this line
+say "Hello Nova!"</code></pre>
+        </div>
+    </div>
+
+</main>
 
 <script>
-  const editor = document.getElementById("editor");
-  const output = document.getElementById("output");
-  const status = document.getElementById("status");
+const STORAGE_KEY = "nova-v06-code";
 
-  const STORAGE_KEY = "nova-v05-code";
+const editor = document.getElementById("editor");
+const output = document.getElementById("output");
+const status = document.getElementById("status");
 
-  const starterCode = `x = 20
+let variables = {};
 
-say x - 5
-say x * 2
-say x / 4
-say x % 3`;
+editor.value = localStorage.getItem(STORAGE_KEY) || editor.value;
 
-  const saved = localStorage.getItem(STORAGE_KEY);
+editor.addEventListener("input", () => {
+    localStorage.setItem(STORAGE_KEY, editor.value);
+    status.textContent = "Auto-saved ✓";
+});
 
-  if (saved !== null) {
-    editor.value = saved;
-    status.textContent = "Loaded saved code";
-  }
-
-  editor.addEventListener("input", () => {
-    clearTimeout(window.saveTimer);
-
-    window.saveTimer = setTimeout(() => {
-      localStorage.setItem(STORAGE_KEY, editor.value);
-      status.textContent = "Auto-saved ✓";
-    }, 400);
-  });
-
-  editor.addEventListener("keydown", (event) => {
-    if (event.key === "Tab") {
-      event.preventDefault();
-
-      const start = editor.selectionStart;
-      const end = editor.selectionEnd;
-
-      editor.value =
-        editor.value.substring(0, start) +
-        "    " +
-        editor.value.substring(end);
-
-      editor.selectionStart = editor.selectionEnd = start + 4;
-    }
-  });
-
-  function saveCode() {
+function saveCode() {
     localStorage.setItem(STORAGE_KEY, editor.value);
     status.textContent = "Saved ✓";
-  }
+}
 
-  function clearCode() {
+function clearCode() {
     editor.value = "";
-    localStorage.removeItem(STORAGE_KEY);
+    localStorage.setItem(STORAGE_KEY, "");
     output.textContent = "";
     status.textContent = "Cleared";
-  }
+}
 
-  function loadExample() {
-    editor.value = starterCode;
-    localStorage.setItem(STORAGE_KEY, starterCode);
+function loadExample() {
+    editor.value = `score = 85
+
+if score >= 70 and score <= 100
+    say "Valid score"
+end`;
+
+    localStorage.setItem(STORAGE_KEY, editor.value);
     status.textContent = "Example loaded";
-  }
+}
 
-  function runNova() {
-    output.className = "";
-    output.textContent = "";
+function isIdentifier(value) {
+    return /^[A-Za-z_][A-Za-z0-9_]*$/.test(value);
+}
 
-    try {
-      const result = executeNova(editor.value);
+function isWrappedInParentheses(text) {
+    text = text.trim();
 
-      output.textContent = result.join("\n");
-      output.className = "success";
-
-      if (result.length === 0) {
-        output.textContent = "(No output)";
-      }
-    } catch (error) {
-      output.textContent = "Nova Error: " + error.message;
-      output.className = "error";
-    }
-  }
-
-  function executeNova(code) {
-    const lines = code.split("\n");
-    const variables = {};
-    const results = [];
-
-    function cleanLine(line) {
-      return line.trim();
+    if (!text.startsWith("(") || !text.endsWith(")")) {
+        return false;
     }
 
-    /*
-      Nova math evaluator.
+    let depth = 0;
+    let inString = false;
 
-      Supports:
-      +  addition
-      -  subtraction
-      *  multiplication
-      /  division
-      %  remainder
-
-      Multiplication, division, and remainder happen
-      before addition and subtraction.
-    */
-
-    function tokenizeMath(text) {
-      const tokens = [];
-      let current = "";
-      let insideString = false;
-
-      for (let i = 0; i < text.length; i++) {
+    for (let i = 0; i < text.length; i++) {
         const char = text[i];
 
-        if (char === '"') {
-          insideString = !insideString;
-          current += char;
-          continue;
+        if (char === '"' && text[i - 1] !== "\\") {
+            inString = !inString;
+            continue;
         }
 
-        if (
-          !insideString &&
-          ["+", "-", "*", "/", "%", "(", ")"].includes(char)
-        ) {
-          if (current.trim() !== "") {
-            tokens.push(current.trim());
-            current = "";
-          }
+        if (inString) continue;
 
-          tokens.push(char);
-          continue;
+        if (char === "(") depth++;
+        if (char === ")") depth--;
+
+        if (depth === 0 && i !== text.length - 1) {
+            return false;
         }
-
-        current += char;
-      }
-
-      if (current.trim() !== "") {
-        tokens.push(current.trim());
-      }
-
-      return tokens;
     }
 
-    function evaluateMath(text) {
-      const tokens = tokenizeMath(text);
+    return depth === 0;
+}
 
-      if (tokens.length === 0) {
-        throw new Error("Empty expression");
-      }
+function findTopLevelWord(text, word) {
+    let depth = 0;
+    let inString = false;
 
-      let position = 0;
+    for (let i = 0; i <= text.length - word.length; i++) {
+        const char = text[i];
 
-      function getValue() {
-        if (position >= tokens.length) {
-          throw new Error("Expected a value");
+        if (char === '"' && text[i - 1] !== "\\") {
+            inString = !inString;
+            continue;
         }
 
-        const token = tokens[position];
+        if (inString) continue;
 
-        if (token === "-") {
-          position++;
-          const value = getValue();
+        if (char === "(") {
+            depth++;
+            continue;
+        }
 
-          if (typeof value !== "number") {
-            throw new Error("Cannot use - with text");
-          }
+        if (char === ")") {
+            depth--;
+            continue;
+        }
 
-          return -value;
+        if (depth !== 0) continue;
+
+        if (text.slice(i, i + word.length).toLowerCase() === word) {
+            const before = i === 0 ? " " : text[i - 1];
+            const after = i + word.length >= text.length
+                ? " "
+                : text[i + word.length];
+
+            if (!/[A-Za-z0-9_]/.test(before) &&
+                !/[A-Za-z0-9_]/.test(after)) {
+                return i;
+            }
+        }
+    }
+
+    return -1;
+}
+
+function findTopLevelComparison(text) {
+    let depth = 0;
+    let inString = false;
+
+    for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+
+        if (char === '"' && text[i - 1] !== "\\") {
+            inString = !inString;
+            continue;
+        }
+
+        if (inString) continue;
+
+        if (char === "(") {
+            depth++;
+            continue;
+        }
+
+        if (char === ")") {
+            depth--;
+            continue;
+        }
+
+        if (depth !== 0) continue;
+
+        const two = text.slice(i, i + 2);
+
+        if (
+            two === "==" ||
+            two === "!=" ||
+            two === ">=" ||
+            two === "<="
+        ) {
+            return {
+                operator: two,
+                index: i
+            };
+        }
+
+        if (char === ">" || char === "<") {
+            return {
+                operator: char,
+                index: i
+            };
+        }
+    }
+
+    return null;
+}
+
+function tokenizeMath(text) {
+    const tokens = [];
+    let i = 0;
+
+    while (i < text.length) {
+        const char = text[i];
+
+        if (/\s/.test(char)) {
+            i++;
+            continue;
+        }
+
+        if (char === "(" || char === ")" ||
+            char === "+" || char === "-" ||
+            char === "*" || char === "/" ||
+            char === "%") {
+            tokens.push(char);
+            i++;
+            continue;
+        }
+
+        if (char === '"') {
+            let value = "";
+            i++;
+
+            while (i < text.length && text[i] !== '"') {
+                if (text[i] === "\\" && i + 1 < text.length) {
+                    value += text[i + 1];
+                    i += 2;
+                } else {
+                    value += text[i];
+                    i++;
+                }
+            }
+
+            if (text[i] !== '"') {
+                throw new Error("Unclosed string.");
+            }
+
+            i++;
+            tokens.push({
+                type: "string",
+                value
+            });
+            continue;
+        }
+
+        const numberMatch = text
+            .slice(i)
+            .match(/^\d+(?:\.\d+)?/);
+
+        if (numberMatch) {
+            tokens.push({
+                type: "number",
+                value: Number(numberMatch[0])
+            });
+
+            i += numberMatch[0].length;
+            continue;
+        }
+
+        const identifierMatch = text
+            .slice(i)
+            .match(/^[A-Za-z_][A-Za-z0-9_]*/);
+
+        if (identifierMatch) {
+            tokens.push({
+                type: "identifier",
+                value: identifierMatch[0]
+            });
+
+            i += identifierMatch[0].length;
+            continue;
+        }
+
+        throw new Error(`Unexpected character "${char}".`);
+    }
+
+    return tokens;
+}
+
+function evaluateMath(text) {
+    const tokens = tokenizeMath(text);
+    let position = 0;
+
+    function parseExpression() {
+        let value = parseTerm();
+
+        while (
+            tokens[position] === "+" ||
+            tokens[position] === "-"
+        ) {
+            const operator = tokens[position++];
+            const right = parseTerm();
+
+            if (typeof value !== "number" ||
+                typeof right !== "number") {
+                throw new Error("Math requires numbers.");
+            }
+
+            value = operator === "+"
+                ? value + right
+                : value - right;
+        }
+
+        return value;
+    }
+
+    function parseTerm() {
+        let value = parseUnary();
+
+        while (
+            tokens[position] === "*" ||
+            tokens[position] === "/" ||
+            tokens[position] === "%"
+        ) {
+            const operator = tokens[position++];
+            const right = parseUnary();
+
+            if (typeof value !== "number" ||
+                typeof right !== "number") {
+                throw new Error("Math requires numbers.");
+            }
+
+            if (
+                (operator === "/" || operator === "%") &&
+                right === 0
+            ) {
+                throw new Error("Cannot divide by zero.");
+            }
+
+            if (operator === "*") value *= right;
+            if (operator === "/") value /= right;
+            if (operator === "%") value %= right;
+        }
+
+        return value;
+    }
+
+    function parseUnary() {
+        if (tokens[position] === "-") {
+            position++;
+            const value = parseUnary();
+
+            if (typeof value !== "number") {
+                throw new Error("Negative values must be numbers.");
+            }
+
+            return -value;
+        }
+
+        return parsePrimary();
+    }
+
+    function parsePrimary() {
+        const token = tokens[position++];
+
+        if (!token) {
+            throw new Error("Expected a value.");
         }
 
         if (token === "(") {
-          position++;
+            const value = parseExpression();
 
-          const value = parseAddSubtract();
-
-          if (tokens[position] !== ")") {
-            throw new Error("Missing )");
-          }
-
-          position++;
-          return value;
-        }
-
-        position++;
-
-        if (
-          token.startsWith('"') &&
-          token.endsWith('"')
-        ) {
-          return token.slice(1, -1);
-        }
-
-        if (/^-?\d+(\.\d+)?$/.test(token)) {
-          return Number(token);
-        }
-
-        if (Object.prototype.hasOwnProperty.call(variables, token)) {
-          return variables[token];
-        }
-
-        throw new Error("Unknown value: " + token);
-      }
-
-      function parseMultiplyDivide() {
-        let left = getValue();
-
-        while (
-          position < tokens.length &&
-          ["*", "/", "%"].includes(tokens[position])
-        ) {
-          const operator = tokens[position];
-          position++;
-
-          const right = getValue();
-
-          if (
-            typeof left !== "number" ||
-            typeof right !== "number"
-          ) {
-            throw new Error("Math requires numbers");
-          }
-
-          if (operator === "*") {
-            left = left * right;
-          }
-
-          if (operator === "/") {
-            if (right === 0) {
-              throw new Error("Cannot divide by zero");
+            if (tokens[position] !== ")") {
+                throw new Error("Missing closing parenthesis.");
             }
 
-            left = left / right;
-          }
-
-          if (operator === "%") {
-            if (right === 0) {
-              throw new Error("Cannot divide by zero");
-            }
-
-            left = left % right;
-          }
+            position++;
+            return value;
         }
 
-        return left;
-      }
-
-      function parseAddSubtract() {
-        let left = parseMultiplyDivide();
-
-        while (
-          position < tokens.length &&
-          ["+", "-"].includes(tokens[position])
-        ) {
-          const operator = tokens[position];
-          position++;
-
-          const right = parseMultiplyDivide();
-
-          if (
-            typeof left !== "number" ||
-            typeof right !== "number"
-          ) {
-            if (operator === "+" && (typeof left === "string" || typeof right === "string")) {
-              left = String(left) + String(right);
-              continue;
-            }
-
-            throw new Error("Math requires numbers");
-          }
-
-          if (operator === "+") {
-            left = left + right;
-          }
-
-          if (operator === "-") {
-            left = left - right;
-          }
+        if (token.type === "number") {
+            return token.value;
         }
 
-        return left;
-      }
+        if (token.type === "string") {
+            return token.value;
+        }
 
-      const result = parseAddSubtract();
+        if (token.type === "identifier") {
+            const name = token.value;
 
-      if (position < tokens.length) {
-        throw new Error("Unexpected value: " + tokens[position]);
-      }
+            if (name === "true") return true;
+            if (name === "false") return false;
 
-      return result;
+            if (!(name in variables)) {
+                throw new Error(`Unknown variable "${name}".`);
+            }
+
+            return variables[name];
+        }
+
+        throw new Error("Invalid expression.");
     }
 
-    function evaluate(value) {
-      value = value.trim();
+    const result = parseExpression();
 
-      return evaluateMath(value);
+    if (position < tokens.length) {
+        throw new Error("Invalid math expression.");
     }
 
-    function evaluateCondition(condition) {
-      const operators = ["==", "!=", ">=", "<=", ">", "<"];
+    return result;
+}
 
-      for (const operator of operators) {
-        const index = condition.indexOf(operator);
+function evaluateValue(text) {
+    text = text.trim();
 
-        if (index !== -1) {
-          const leftText = condition.substring(0, index).trim();
-          const rightText =
-            condition.substring(index + operator.length).trim();
+    if (text === "true") return true;
+    if (text === "false") return false;
 
-          const left = evaluate(leftText);
-          const right = evaluate(rightText);
+    if (isWrappedInParentheses(text)) {
+        return evaluateValue(text.slice(1, -1));
+    }
 
-          switch (operator) {
+    if (
+        (text.startsWith('"') && text.endsWith('"')) &&
+        text.length >= 2
+    ) {
+        return text.slice(1, -1);
+    }
+
+    if (isIdentifier(text) && text in variables) {
+        return variables[text];
+    }
+
+    if (isIdentifier(text)) {
+        throw new Error(`Unknown variable "${text}".`);
+    }
+
+    return evaluateMath(text);
+}
+
+function evaluateCondition(text) {
+    text = text.trim();
+
+    if (!text) {
+        throw new Error("Empty condition.");
+    }
+
+    while (isWrappedInParentheses(text)) {
+        text = text.slice(1, -1).trim();
+    }
+
+    const orIndex = findTopLevelWord(text, "or");
+
+    if (orIndex !== -1) {
+        const left = text.slice(0, orIndex);
+        const right = text.slice(orIndex + 2);
+
+        return evaluateCondition(left) ||
+               evaluateCondition(right);
+    }
+
+    const andIndex = findTopLevelWord(text, "and");
+
+    if (andIndex !== -1) {
+        const left = text.slice(0, andIndex);
+        const right = text.slice(andIndex + 3);
+
+        return evaluateCondition(left) &&
+               evaluateCondition(right);
+    }
+
+    const notIndex = findTopLevelWord(text, "not");
+
+    if (notIndex === 0) {
+        return !evaluateCondition(text.slice(3));
+    }
+
+    const comparison = findTopLevelComparison(text);
+
+    if (comparison) {
+        const leftText = text.slice(0, comparison.index);
+        const rightText =
+            text.slice(
+                comparison.index + comparison.operator.length
+            );
+
+        const left = evaluateValue(leftText);
+        const right = evaluateValue(rightText);
+
+        switch (comparison.operator) {
             case "==":
-              return left == right;
+                return left === right;
 
             case "!=":
-              return left != right;
+                return left !== right;
 
             case ">":
-              return left > right;
+                return left > right;
 
             case "<":
-              return left < right;
+                return left < right;
 
             case ">=":
-              return left >= right;
+                return left >= right;
 
             case "<=":
-              return left <= right;
-          }
+                return left <= right;
         }
-      }
-
-      throw new Error("Invalid condition: " + condition);
     }
 
-    function findIfChain(start) {
-      let depth = 1;
-      let endIndex = -1;
-      const branches = [];
+    const value = evaluateValue(text);
 
-      let currentCondition =
-        lines[start].trim().substring(3).trim();
+    if (typeof value !== "boolean") {
+        throw new Error("Condition must be true or false.");
+    }
 
-      let branchStart = start + 1;
+    return value;
+}
 
-      for (let i = start + 1; i < lines.length; i++) {
-        const line = cleanLine(lines[i]);
+function evaluate(text) {
+    return evaluateValue(text);
+}
+
+function findIfChain(lines, startIndex) {
+    let depth = 0;
+    let current = startIndex;
+    let branches = [];
+
+    while (current < lines.length) {
+        const line = lines[current].trim();
 
         if (line.startsWith("if ")) {
-          depth++;
+            if (depth === 0) {
+                branches.push({
+                    type: "if",
+                    condition: line.slice(3).trim(),
+                    index: current
+                });
+            }
+
+            depth++;
+        } else if (line.startsWith("elseif ")) {
+            if (depth === 1) {
+                branches.push({
+                    type: "elseif",
+                    condition: line.slice(7).trim(),
+                    index: current
+                });
+            }
+        } else if (line === "else") {
+            if (depth === 1) {
+                branches.push({
+                    type: "else",
+                    index: current
+                });
+            }
+        } else if (line === "end") {
+            depth--;
+
+            if (depth === 0) {
+                return {
+                    branches,
+                    endIndex: current
+                };
+            }
         }
 
-        if (line === "end") {
-          depth--;
-
-          if (depth === 0) {
-            branches.push({
-              condition: currentCondition,
-              start: branchStart,
-              end: i
-            });
-
-            endIndex = i;
-            break;
-          }
-        }
-
-        if (
-          depth === 1 &&
-          line.startsWith("elseif ")
-        ) {
-          branches.push({
-            condition: currentCondition,
-            start: branchStart,
-            end: i
-          });
-
-          currentCondition =
-            line.substring(7).trim();
-
-          branchStart = i + 1;
-        }
-
-        if (depth === 1 && line === "else") {
-          branches.push({
-            condition: null,
-            start: branchStart,
-            end: i
-          });
-
-          branchStart = i + 1;
-          currentCondition = null;
-        }
-      }
-
-      if (endIndex === -1) {
-        throw new Error("Missing end");
-      }
-
-      return {
-        branches,
-        endIndex
-      };
+        current++;
     }
 
-    function executeLines(start, end) {
-      for (let i = start; i < end; i++) {
-        const line = cleanLine(lines[i]);
+    throw new Error("Missing end for if statement.");
+}
+
+function executeLines(lines, start, end) {
+    let i = start;
+
+    while (i < end) {
+        const raw = lines[i];
+        const line = raw.trim();
 
         if (!line || line.startsWith("#")) {
-          continue;
+            i++;
+            continue;
         }
 
         if (line.startsWith("if ")) {
-          const chain = findIfChain(i);
+            const chain = findIfChain(lines, i);
 
-          for (const branch of chain.branches) {
-            if (
-              branch.condition === null ||
-              evaluateCondition(branch.condition)
-            ) {
-              executeLines(branch.start, branch.end);
-              break;
+            let selectedBranch = null;
+
+            for (const branch of chain.branches) {
+                if (branch.type === "else") {
+                    if (!selectedBranch) {
+                        selectedBranch = branch;
+                    }
+                    break;
+                }
+
+                if (evaluateCondition(branch.condition)) {
+                    selectedBranch = branch;
+                    break;
+                }
             }
-          }
 
-          i = chain.endIndex;
-          continue;
+            if (selectedBranch) {
+                const branchPosition =
+                    chain.branches.indexOf(selectedBranch);
+
+                const nextBranch =
+                    chain.branches[branchPosition + 1];
+
+                const branchStart =
+                    selectedBranch.index + 1;
+
+                const branchEnd =
+                    nextBranch
+                        ? nextBranch.index
+                        : chain.endIndex;
+
+                executeLines(
+                    lines,
+                    branchStart,
+                    branchEnd
+                );
+            }
+
+            i = chain.endIndex + 1;
+            continue;
         }
 
         if (
-          line === "else" ||
-          line.startsWith("elseif ")
+            line === "elseif" ||
+            line.startsWith("elseif ") ||
+            line === "else" ||
+            line === "end"
         ) {
-          continue;
-        }
-
-        if (line === "end") {
-          continue;
+            i++;
+            continue;
         }
 
         if (line.startsWith("say ")) {
-          const value = line.substring(4).trim();
-          results.push(String(evaluate(value)));
-          continue;
+            const expression = line.slice(4).trim();
+            const value = evaluate(expression);
+
+            output.textContent +=
+                String(value) + "\n";
+
+            i++;
+            continue;
         }
 
-        const equalsIndex = line.indexOf("=");
-
-        if (
-          equalsIndex !== -1 &&
-          !line.includes("==")
-        ) {
-          const name = line.substring(0, equalsIndex).trim();
-          const value = line.substring(equalsIndex + 1).trim();
-
-          if (!/^[A-Za-z_][A-Za-z0-9_]*$/.test(name)) {
-            throw new Error(
-              "Invalid variable name: " + name
+        const assignmentMatch =
+            line.match(
+                /^([A-Za-z_][A-Za-z0-9_]*)\s*=(?!=)\s*(.+)$/
             );
-          }
 
-          variables[name] = evaluate(value);
-          continue;
+        if (assignmentMatch) {
+            const name = assignmentMatch[1];
+            const expression = assignmentMatch[2];
+
+            variables[name] = evaluate(expression);
+
+            i++;
+            continue;
         }
 
-        throw new Error("Unknown command: " + line);
-      }
+        throw new Error(
+            `Unknown command: "${line}"`
+        );
     }
+}
 
-    executeLines(0, lines.length);
+function runNova() {
+    output.textContent = "";
+    variables = {};
 
-    return results;
-  }
+    const lines = editor.value.split("\n");
+
+    try {
+        executeLines(lines, 0, lines.length);
+        status.textContent = "Ran successfully ✓";
+    } catch (error) {
+        output.textContent =
+            "Nova Error: " + error.message;
+
+        status.textContent = "Error";
+    }
+}
 </script>
 
 </body>
