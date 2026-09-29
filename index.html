@@ -15,1214 +15,425 @@
       font-family: Arial, sans-serif;
       background: #0d1117;
       color: #f0f6fc;
-      min-height: 100vh;
     }
 
     header {
       padding: 20px;
-      border-bottom: 1px solid #30363d;
       background: #161b22;
+      border-bottom: 1px solid #30363d;
+      text-align: center;
     }
 
     header h1 {
       margin: 0;
-      font-size: 28px;
+      font-size: 25px;
     }
 
     header p {
-      margin: 6px 0 0;
+      margin: 7px 0 0;
       color: #8b949e;
     }
 
     .container {
-      width: min(1100px, 94%);
-      margin: 24px auto;
+      max-width: 900px;
+      margin: auto;
+      padding: 18px;
     }
 
-    .toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 14px;
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
     }
 
     button {
-      border: 0;
+      border: 1px solid #30363d;
+      background: #21262d;
+      color: #f0f6fc;
+      padding: 11px;
       border-radius: 8px;
-      padding: 11px 16px;
       font-size: 14px;
-      font-weight: bold;
       cursor: pointer;
     }
 
-    #runButton {
-      background: #238636;
-      color: white;
-    }
-
-    #saveButton {
-      background: #1f6feb;
-      color: white;
-    }
-
-    #clearButton {
+    button:hover {
       background: #30363d;
-      color: white;
     }
 
-    #exampleButton {
-      background: #6e40c9;
-      color: white;
-    }
-
-    button:active {
-      transform: scale(0.97);
-    }
-
-    .status {
-      margin-left: auto;
-      display: flex;
-      align-items: center;
-      color: #8b949e;
-      font-size: 13px;
-    }
-
-    .panel {
-      background: #161b22;
-      border: 1px solid #30363d;
-      border-radius: 12px;
-      overflow: hidden;
-      margin-bottom: 20px;
-    }
-
-    .panel-title {
-      padding: 12px 15px;
-      border-bottom: 1px solid #30363d;
+    .learn-btn {
+      grid-column: 1 / -1;
+      background: #238636;
+      border-color: #2ea043;
       font-weight: bold;
-      color: #c9d1d9;
     }
 
     textarea {
-      display: block;
       width: 100%;
-      min-height: 360px;
+      min-height: 320px;
       resize: vertical;
-      border: 0;
-      outline: 0;
-      padding: 18px;
-      background: #0d1117;
+      background: #010409;
       color: #f0f6fc;
-      font-family: "Courier New", monospace;
-      font-size: 16px;
-      line-height: 1.6;
-      tab-size: 4;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 15px;
+      font-family: monospace;
+      font-size: 15px;
+      line-height: 1.5;
+      outline: none;
+    }
+
+    textarea:focus {
+      border-color: #58a6ff;
+    }
+
+    .panel {
+      margin-top: 15px;
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 15px;
+    }
+
+    .panel h2 {
+      margin-top: 0;
+      font-size: 18px;
     }
 
     #output {
-      min-height: 180px;
-      padding: 18px;
-      background: #0d1117;
-      font-family: "Courier New", monospace;
       white-space: pre-wrap;
-      overflow-wrap: break-word;
+      min-height: 70px;
+      font-family: monospace;
+      color: #7ee787;
     }
 
     .error {
-      color: #ff7b72;
+      color: #ff7b72 !important;
     }
 
     .success {
       color: #7ee787;
     }
 
-    .help {
-      padding: 18px;
-      color: #8b949e;
-      line-height: 1.7;
+    .command {
+      padding: 7px 0;
+      border-bottom: 1px solid #21262d;
     }
 
-    .example {
-      margin-bottom: 22px;
-    }
-
-    .example:last-child {
-      margin-bottom: 0;
-    }
-
-    .example-title {
-      color: #f0f6fc;
-      font-weight: bold;
-      margin-bottom: 7px;
-    }
-
-    .example-code {
-      display: block;
-      padding: 12px;
-      margin-bottom: 7px;
-      border-radius: 8px;
-      background: #0d1117;
-      border: 1px solid #30363d;
-      color: #79c0ff;
-      font-family: "Courier New", monospace;
-      white-space: pre-wrap;
-      overflow-x: auto;
+    .command:last-child {
+      border-bottom: none;
     }
 
     code {
+      background: #21262d;
+      padding: 2px 5px;
+      border-radius: 4px;
       color: #79c0ff;
-      font-family: "Courier New", monospace;
     }
 
-    @media (max-width: 600px) {
-      header h1 {
-        font-size: 24px;
-      }
+    .example {
+      margin-top: 12px;
+      padding: 12px;
+      background: #010409;
+      border: 1px solid #30363d;
+      border-radius: 7px;
+      white-space: pre-wrap;
+      font-family: monospace;
+      color: #c9d1d9;
+    }
 
-      textarea {
-        min-height: 300px;
-        font-size: 15px;
-      }
-
-      .status {
-        width: 100%;
-        margin-left: 0;
-      }
-
-      button {
-        flex: 1;
-      }
+    .status {
+      color: #8b949e;
+      font-size: 12px;
+      margin: 7px 0;
     }
   </style>
 </head>
 
 <body>
 
-  <header>
-    <h1>🚀 Nova Playground</h1>
-    <p>Nova v0.3 • Your first programming language</p>
-  </header>
+<header>
+  <h1>🚀 Nova Playground</h1>
+  <p>Nova v0.4</p>
+</header>
 
-  <main class="container">
+<div class="container">
 
-    <div class="toolbar">
-      <button id="runButton">▶ Run</button>
-      <button id="saveButton">💾 Save</button>
-      <button id="clearButton">🗑 Clear</button>
-      <button id="exampleButton">✨ Example</button>
+  <div class="buttons">
+    <button onclick="runNova()">▶ Run</button>
+    <button onclick="saveCode()">💾 Save</button>
+    <button onclick="clearCode()">🗑 Clear</button>
+    <button onclick="loadExample()">✨ Example</button>
 
-      <div class="status" id="status">
-        Saved automatically
-      </div>
+    <button class="learn-btn" onclick="location.href='learn.html'">
+      📚 Learn Nova
+    </button>
+  </div>
+
+  <div class="status" id="status">Ready</div>
+
+  <textarea id="editor" spellcheck="false">score = 85
+
+if score >= 90
+    say "A"
+elseif score >= 80
+    say "B"
+elseif score >= 70
+    say "C"
+else
+    say "F"
+end</textarea>
+
+  <div class="panel">
+    <h2>🖥 Output</h2>
+    <div id="output"></div>
+  </div>
+
+  <div class="panel">
+    <h2>📖 Nova v0.4 Commands</h2>
+
+    <div class="command"><code>say</code> - print text or a value</div>
+    <div class="command"><code>name = "Alex"</code> - create a variable</div>
+    <div class="command"><code>age = 14</code> - create a number variable</div>
+    <div class="command"><code>score = score + 10</code> - change a variable</div>
+    <div class="command"><code># comment</code> - add a comment</div>
+    <div class="command"><code>if</code> - check a condition</div>
+    <div class="command"><code>elseif</code> - check another condition</div>
+    <div class="command"><code>else</code> - run when previous conditions fail</div>
+    <div class="command"><code>end</code> - finish an if block</div>
+
+    <br>
+
+    <div class="command">
+      Comparisons:
+      <code>==</code>
+      <code>!=</code>
+      <code>&gt;</code>
+      <code>&lt;</code>
+      <code>&gt;=</code>
+      <code>&lt;=</code>
     </div>
 
+    <div class="command">
+      Math:
+      <code>+</code>
+    </div>
+  </div>
 
-    <!-- CODE EDITOR -->
+  <div class="panel">
+    <h2>💡 Examples</h2>
 
-    <section class="panel">
-      <div class="panel-title">Nova Code</div>
+    <div class="example">say "Hello Nova!"</div>
 
-      <textarea
-        id="editor"
-        spellcheck="false"
-        autocapitalize="off"
-        autocomplete="off"
-        autocorrect="off"
-      ></textarea>
-    </section>
+    <div class="example">name = "Alex"
+say name</div>
 
+    <div class="example">age = 14
+say age + 1</div>
 
-    <!-- OUTPUT -->
+    <div class="example">score = 96
+score = score + 4
+say score</div>
 
-    <section class="panel">
-      <div class="panel-title">Output</div>
+    <div class="example"># This is a comment
+say "Comments don't run"</div>
 
-      <div id="output">
-        Press ▶ Run to run your Nova program.
-      </div>
-    </section>
+    <div class="example">score = 100
 
+if score >= 90
+    say "Excellent!"
+end</div>
 
-    <!-- COMMANDS -->
+    <div class="example">score = 50
 
-    <section class="panel">
-      <div class="panel-title">Nova v0.3 Commands</div>
-
-      <div class="help">
-
-        <div>
-          <code>say</code> → prints something
-        </div>
-
-        <div>
-          <code>variable = value</code> → creates or changes a variable
-        </div>
-
-        <div>
-          <code>if</code> → checks a condition
-        </div>
-
-        <div>
-          <code>else</code> → runs when the if condition is false
-        </div>
-
-        <div>
-          <code>end</code> → ends an if/else block
-        </div>
-
-        <br>
-
-        <div>
-          <code>==</code> → equals
-        </div>
-
-        <div>
-          <code>!=</code> → not equal
-        </div>
-
-        <div>
-          <code>&gt;</code> → greater than
-        </div>
-
-        <div>
-          <code>&lt;</code> → less than
-        </div>
-
-        <div>
-          <code>&gt;=</code> → greater than or equal
-        </div>
-
-        <div>
-          <code>&lt;=</code> → less than or equal
-        </div>
-
-      </div>
-    </section>
-
-
-    <!-- EXAMPLES -->
-
-    <section class="panel">
-
-      <div class="panel-title">
-        Examples
-      </div>
-
-      <div class="help">
-
-
-        <div class="example">
-
-          <div class="example-title">
-            1. Say something
-          </div>
-
-          <code class="example-code">say "Hello, world!"</code>
-
-          Prints text to the output.
-
-        </div>
-
-
-        <div class="example">
-
-          <div class="example-title">
-            2. Create a variable
-          </div>
-
-          <code class="example-code">name = "Alex"</code>
-
-          Creates a variable called <code>name</code>.
-
-        </div>
-
-
-        <div class="example">
-
-          <div class="example-title">
-            3. Use a variable
-          </div>
-
-          <code class="example-code">name = "Alex"
-say name</code>
-
-          Prints the value stored inside <code>name</code>.
-
-        </div>
-
-
-        <div class="example">
-
-          <div class="example-title">
-            4. Numbers
-          </div>
-
-          <code class="example-code">age = 14
-say age</code>
-
-          Creates and prints a number.
-
-        </div>
-
-
-        <div class="example">
-
-          <div class="example-title">
-            5. Basic math
-          </div>
-
-          <code class="example-code">age = 14
-say age + 1</code>
-
-          Adds numbers together.
-
-        </div>
-
-
-        <div class="example">
-
-          <div class="example-title">
-            6. Change a variable
-          </div>
-
-          <code class="example-code">score = 67
-score = score + 10
-say score</code>
-
-          Changes a variable using its existing value.
-
-        </div>
-
-
-        <div class="example">
-
-          <div class="example-title">
-            7. If statement
-          </div>
-
-          <code class="example-code">score = 67
-
-if score &gt;= 50
-    say "You passed!"
-end</code>
-
-          Runs code only when the condition is true.
-
-        </div>
-
-
-        <div class="example">
-
-          <div class="example-title">
-            8. If with a false condition
-          </div>
-
-          <code class="example-code">score = 20
-
-if score &gt;= 50
-    say "You passed!"
-end</code>
-
-          The code inside the if is skipped because the condition is false.
-
-        </div>
-
-
-        <div class="example">
-
-          <div class="example-title">
-            9. Compare text
-          </div>
-
-          <code class="example-code">name = "Alex"
-
-if name == "Alex"
-    say "Hello Alex!"
-end</code>
-
-          Checks whether two pieces of text are equal.
-
-        </div>
-
-
-        <div class="example">
-
-          <div class="example-title">
-            10. Compare numbers
-          </div>
-
-          <code class="example-code">age = 14
-
-if age &gt; 13
-    say "Age is greater than 13"
-end</code>
-
-          Checks whether one number is greater than another.
-
-        </div>
-
-
-        <div class="example">
-
-          <div class="example-title">
-            11. Multiple commands inside an if
-          </div>
-
-          <code class="example-code">score = 67
-
-if score &gt;= 50
-    say "You passed!"
-    say "Great job!"
-end</code>
-
-          Multiple commands can run inside the same condition.
-
-        </div>
-
-
-        <div class="example">
-
-          <div class="example-title">
-            12. Comments
-          </div>
-
-          <code class="example-code"># This is a comment
-
-say "Nova is working!"</code>
-
-          Lines beginning with <code>#</code> are ignored.
-
-        </div>
-
-
-        <div class="example">
-
-          <div class="example-title">
-            13. If and else
-          </div>
-
-          <code class="example-code">score = 96
-
-if score &gt;= 97
-    say "Hello"
+if score >= 70
+    say "Passed!"
 else
-    say "Good bye"
-end</code>
+    say "Failed!"
+end</div>
 
-          If the condition is true, Nova runs the first block. Otherwise, Nova runs the <code>else</code> block.
+    <div class="example">score = 85
 
-        </div>
-
-
-        <div class="example">
-
-          <div class="example-title">
-            14. If and else with age
-          </div>
-
-          <code class="example-code">age = 14
-
-if age &gt;= 18
-    say "Adult"
+if score >= 90
+    say "A"
+elseif score >= 80
+    say "B"
+elseif score >= 70
+    say "C"
 else
-    say "Not an adult"
-end</code>
+    say "F"
+end</div>
+  </div>
 
-          Gives Nova two possible paths depending on the condition.
+</div>
 
-        </div>
+<script>
+  const editor = document.getElementById("editor");
+  const output = document.getElementById("output");
+  const status = document.getElementById("status");
 
+  const STORAGE_KEY = "nova-v04-code";
 
-      </div>
-    </section>
+  const starterCode = `score = 85
 
-  </main>
-
-
-  <script>
-
-    /*
-      =====================================
-      NOVA v0.3 INTERPRETER
-      =====================================
-    */
-
-    const editor =
-      document.getElementById("editor");
-
-    const output =
-      document.getElementById("output");
-
-    const status =
-      document.getElementById("status");
-
-    const STORAGE_KEY =
-      "nova-v03-code";
-
-
-    /*
-      =====================================
-      STARTER CODE
-      =====================================
-    */
-
-    const starterCode = `score = 96
-
-if score >= 97
-    say "Hello"
+if score >= 90
+    say "A"
+elseif score >= 80
+    say "B"
+elseif score >= 70
+    say "C"
 else
-    say "Good bye"
+    say "F"
 end`;
 
+  const saved = localStorage.getItem(STORAGE_KEY);
 
-    /*
-      =====================================
-      LOAD SAVED CODE
-      =====================================
-    */
+  if (saved !== null) {
+    editor.value = saved;
+    status.textContent = "Loaded saved code";
+  }
 
-    const savedCode =
-      localStorage.getItem(
-        STORAGE_KEY
-      );
+  editor.addEventListener("input", () => {
+    clearTimeout(window.saveTimer);
 
-    if (savedCode !== null) {
+    window.saveTimer = setTimeout(() => {
+      localStorage.setItem(STORAGE_KEY, editor.value);
+      status.textContent = "Auto-saved ✓";
+    }, 400);
+  });
 
-      editor.value = savedCode;
+  editor.addEventListener("keydown", (event) => {
+    if (event.key === "Tab") {
+      event.preventDefault();
 
-    } else {
+      const start = editor.selectionStart;
+      const end = editor.selectionEnd;
 
-      editor.value = starterCode;
+      editor.value =
+        editor.value.substring(0, start) +
+        "    " +
+        editor.value.substring(end);
 
+      editor.selectionStart = editor.selectionEnd = start + 4;
+    }
+  });
+
+  function saveCode() {
+    localStorage.setItem(STORAGE_KEY, editor.value);
+    status.textContent = "Saved ✓";
+  }
+
+  function clearCode() {
+    editor.value = "";
+    localStorage.removeItem(STORAGE_KEY);
+    output.textContent = "";
+    status.textContent = "Cleared";
+  }
+
+  function loadExample() {
+    editor.value = starterCode;
+    localStorage.setItem(STORAGE_KEY, starterCode);
+    status.textContent = "Example loaded";
+  }
+
+  function runNova() {
+    output.className = "";
+    output.textContent = "";
+
+    try {
+      const result = executeNova(editor.value);
+
+      output.textContent = result.join("\n");
+      output.className = "success";
+
+      if (result.length === 0) {
+        output.textContent = "(No output)";
+      }
+    } catch (error) {
+      output.textContent = "Nova Error: " + error.message;
+      output.className = "error";
+    }
+  }
+
+  function executeNova(code) {
+    const lines = code.split("\n");
+    const variables = {};
+    const results = [];
+
+    function cleanLine(line) {
+      return line.trim();
     }
 
-
-    /*
-      =====================================
-      AUTOMATIC SAVING
-      =====================================
-    */
-
-    let saveTimer;
-
-    editor.addEventListener(
-      "input",
-      () => {
-
-        status.textContent =
-          "Saving...";
-
-        clearTimeout(saveTimer);
-
-        saveTimer =
-          setTimeout(() => {
-
-            localStorage.setItem(
-              STORAGE_KEY,
-              editor.value
-            );
-
-            status.textContent =
-              "Saved automatically";
-
-          }, 400);
-
-      }
-    );
-
-
-    /*
-      =====================================
-      MANUAL SAVE
-      =====================================
-    */
-
-    document
-      .getElementById("saveButton")
-      .addEventListener(
-        "click",
-        () => {
-
-          localStorage.setItem(
-            STORAGE_KEY,
-            editor.value
-          );
-
-          status.textContent =
-            "Saved!";
-
-        }
-      );
-
-
-    /*
-      =====================================
-      CLEAR
-      =====================================
-    */
-
-    document
-      .getElementById("clearButton")
-      .addEventListener(
-        "click",
-        () => {
-
-          editor.value = "";
-
-          localStorage.setItem(
-            STORAGE_KEY,
-            ""
-          );
-
-          output.textContent =
-            "Editor cleared.";
-
-          output.className = "";
-
-          status.textContent =
-            "Saved";
-
-        }
-      );
-
-
-    /*
-      =====================================
-      EXAMPLE BUTTON
-      =====================================
-    */
-
-    document
-      .getElementById("exampleButton")
-      .addEventListener(
-        "click",
-        () => {
-
-          editor.value =
-            starterCode;
-
-          localStorage.setItem(
-            STORAGE_KEY,
-            starterCode
-          );
-
-          output.textContent =
-            "Example loaded. Press ▶ Run.";
-
-          output.className = "";
-
-          status.textContent =
-            "Saved";
-
-        }
-      );
-
-
-    /*
-      =====================================
-      RUN NOVA
-      =====================================
-    */
-
-    function runNova(code) {
-
-      const lines =
-        code.split("\n");
-
-      const variables = {};
-
-      const results = [];
-
-
-      /*
-        Execute a range of lines.
-      */
-
-      function executeLines(
-        start,
-        end
-      ) {
-
-        for (
-          let i = start;
-          i < end;
-          i++
-        ) {
-
-          const line =
-            lines[i].trim();
-
-
-          /*
-            Ignore blank lines.
-          */
-
-          if (line === "") {
-            continue;
-          }
-
-
-          /*
-            Ignore comments.
-          */
-
-          if (line.startsWith("#")) {
-            continue;
-          }
-
-
-          /*
-            =================================
-            IF
-            =================================
-          */
-
-          if (line.startsWith("if ")) {
-
-            const condition =
-              line
-                .slice(3)
-                .trim();
-
-            let depth = 1;
-
-            let blockEnd = -1;
-
-            let elseLine = -1;
-
-
-            /*
-              Find matching END
-              and ELSE.
-            */
-
-            for (
-              let j = i + 1;
-              j < end;
-              j++
-            ) {
-
-              const nextLine =
-                lines[j].trim();
-
-
-              if (
-                nextLine.startsWith("if ")
-              ) {
-
-                depth++;
-
-              }
-
-
-              if (
-                nextLine === "end"
-              ) {
-
-                depth--;
-
-                if (depth === 0) {
-
-                  blockEnd = j;
-
-                  break;
-
-                }
-
-              }
-
-
-              /*
-                Only recognize ELSE
-                belonging to this IF.
-              */
-
-              if (
-                nextLine === "else" &&
-                depth === 1
-              ) {
-
-                elseLine = j;
-
-              }
-
-            }
-
-
-            /*
-              Missing END.
-            */
-
-            if (blockEnd === -1) {
-
-              throw new Error(
-                `Line ${i + 1}: Missing "end" for this if statement.`
-              );
-
-            }
-
-
-            /*
-              Check condition.
-            */
-
-            const conditionResult =
-              evaluateCondition(
-                condition,
-                variables
-              );
-
-
-            /*
-              TRUE
-            */
-
-            if (conditionResult) {
-
-              const trueEnd =
-                elseLine !== -1
-                  ? elseLine
-                  : blockEnd;
-
-              executeLines(
-                i + 1,
-                trueEnd
-              );
-
-            }
-
-
-            /*
-              FALSE + ELSE
-            */
-
-            else if (
-              elseLine !== -1
-            ) {
-
-              executeLines(
-                elseLine + 1,
-                blockEnd
-              );
-
-            }
-
-
-            /*
-              Jump past entire block.
-            */
-
-            i = blockEnd;
-
-            continue;
-
-          }
-
-
-          /*
-            =================================
-            ELSE
-            =================================
-          */
-
-          if (line === "else") {
-
-            continue;
-
-          }
-
-
-          /*
-            =================================
-            END
-            =================================
-          */
-
-          if (line === "end") {
-
-            continue;
-
-          }
-
-
-          /*
-            =================================
-            SAY
-            =================================
-          */
-
-          if (
-            line.startsWith("say ")
-          ) {
-
-            const expression =
-              line
-                .slice(4)
-                .trim();
-
-            const value =
-              evaluate(
-                expression,
-                variables
-              );
-
-            results.push(value);
-
-            continue;
-
-          }
-
-
-          /*
-            =================================
-            VARIABLE ASSIGNMENT
-            =================================
-          */
-
-          const assignment =
-            line.match(
-              /^([a-zA-Z_][a-zA-Z0-9_]*)\s*=\s*(.+)$/
-            );
-
-
-          if (assignment) {
-
-            const variableName =
-              assignment[1];
-
-            const expression =
-              assignment[2];
-
-
-            variables[variableName] =
-              evaluate(
-                expression,
-                variables
-              );
-
-            continue;
-
-          }
-
-
-          /*
-            =================================
-            UNKNOWN COMMAND
-            =================================
-          */
-
-          throw new Error(
-            `Line ${i + 1}: I don't understand "${line}".`
-          );
-
+    function splitAddition(text) {
+      let insideString = false;
+
+      for (let i = 0; i < text.length; i++) {
+        if (text[i] === '"') {
+          insideString = !insideString;
         }
 
+        if (text[i] === "+" && !insideString) {
+          return [
+            text.substring(0, i).trim(),
+            text.substring(i + 1).trim()
+          ];
+        }
       }
 
-
-      executeLines(
-        0,
-        lines.length
-      );
-
-
-      return results.join("\n");
-
+      return null;
     }
 
+    function evaluate(value) {
+      value = value.trim();
 
-    /*
-      =====================================
-      EXPRESSION EVALUATOR
-      =====================================
-    */
-
-    function evaluate(
-      expression,
-      variables
-    ) {
-
-      expression =
-        expression.trim();
-
-
-      /*
-        STRING
-      */
-
-      if (
-        expression.startsWith('"') &&
-        expression.endsWith('"')
-      ) {
-
-        return expression.slice(
-          1,
-          -1
-        );
-
+      if (value.startsWith('"') && value.endsWith('"')) {
+        return value.slice(1, -1);
       }
 
+      const addition = splitAddition(value);
 
-      /*
-        NUMBER
-      */
+      if (addition) {
+        const left = evaluate(addition[0]);
+        const right = evaluate(addition[1]);
 
-      if (
-        /^-?\d+(\.\d+)?$/.test(
-          expression
-        )
-      ) {
-
-        return Number(
-          expression
-        );
-
-      }
-
-
-      /*
-        ADDITION
-      */
-
-      const parts =
-        splitAddition(
-          expression
-        );
-
-
-      if (parts.length > 1) {
-
-        const values =
-          parts.map(
-            part =>
-              evaluate(
-                part,
-                variables
-              )
-          );
-
-
-        if (
-          values.every(
-            value =>
-              typeof value === "number"
-          )
-        ) {
-
-          return values.reduce(
-            (a, b) =>
-              a + b,
-            0
-          );
-
+        if (typeof left === "number" && typeof right === "number") {
+          return left + right;
         }
 
-
-        return values.join("");
-
+        return String(left) + String(right);
       }
 
-
-      /*
-        VARIABLE
-      */
-
-      if (
-        Object.prototype.hasOwnProperty.call(
-          variables,
-          expression
-        )
-      ) {
-
-        return variables[
-          expression
-        ];
-
+      if (/^-?\d+(\.\d+)?$/.test(value)) {
+        return Number(value);
       }
 
+      if (Object.prototype.hasOwnProperty.call(variables, value)) {
+        return variables[value];
+      }
 
-      /*
-        UNKNOWN VALUE
-      */
-
-      throw new Error(
-        `I don't know what "${expression}" means.`
-      );
-
+      throw new Error(`Unknown value: ${value}`);
     }
 
+    function evaluateCondition(condition) {
+      const operators = ["==", "!=", ">=", "<=", ">", "<"];
 
-    /*
-      =====================================
-      CONDITION EVALUATOR
-      =====================================
-    */
-
-    function evaluateCondition(
-      condition,
-      variables
-    ) {
-
-      const operators = [
-        "==",
-        "!=",
-        ">=",
-        "<=",
-        ">",
-        "<"
-      ];
-
-
-      for (
-        const operator of operators
-      ) {
-
-        const index =
-          condition.indexOf(
-            operator
-          );
-
+      for (const operator of operators) {
+        const index = condition.indexOf(operator);
 
         if (index !== -1) {
-
-          const leftText =
-            condition
-              .slice(
-                0,
-                index
-              )
-              .trim();
-
-
+          const leftText = condition.substring(0, index).trim();
           const rightText =
-            condition
-              .slice(
-                index +
-                operator.length
-              )
-              .trim();
+            condition.substring(index + operator.length).trim();
 
-
-          const left =
-            evaluate(
-              leftText,
-              variables
-            );
-
-
-          const right =
-            evaluate(
-              rightText,
-              variables
-            );
-
+          const left = evaluate(leftText);
+          const right = evaluate(rightText);
 
           switch (operator) {
-
             case "==":
-              return left === right;
+              return left == right;
 
             case "!=":
-              return left !== right;
+              return left != right;
 
             case ">":
               return left > right;
@@ -1235,198 +446,178 @@ end`;
 
             case "<=":
               return left <= right;
-
           }
-
         }
-
       }
 
-
-      throw new Error(
-        `I don't understand the condition "${condition}".`
-      );
-
+      throw new Error("Invalid condition: " + condition);
     }
 
+    function findBlock(start) {
+      let depth = 1;
+      let elseIndex = -1;
 
-    /*
-      =====================================
-      ADDITION PARSER
-      =====================================
-    */
+      for (let i = start + 1; i < lines.length; i++) {
+        const line = cleanLine(lines[i]);
 
-    function splitAddition(text) {
-
-      const parts = [];
-
-      let current = "";
-
-      let insideString =
-        false;
-
-
-      for (
-        let i = 0;
-        i < text.length;
-        i++
-      ) {
-
-        const char =
-          text[i];
-
-
-        if (char === '"') {
-
-          insideString =
-            !insideString;
-
+        if (line.startsWith("if ")) {
+          depth++;
         }
 
+        if (line === "end") {
+          depth--;
 
-        if (
-          char === "+" &&
-          !insideString
-        ) {
-
-          parts.push(
-            current.trim()
-          );
-
-          current = "";
-
-        } else {
-
-          current += char;
-
+          if (depth === 0) {
+            return {
+              endIndex: i,
+              elseIndex
+            };
+          }
         }
 
+        if (depth === 1 && line === "else") {
+          elseIndex = i;
+        }
       }
 
-
-      if (
-        current.trim() !== ""
-      ) {
-
-        parts.push(
-          current.trim()
-        );
-
-      }
-
-
-      return parts;
-
+      throw new Error("Missing end");
     }
 
+    function findIfChain(start) {
+      let depth = 1;
+      let endIndex = -1;
+      const branches = [];
 
-    /*
-      =====================================
-      RUN BUTTON
-      =====================================
-    */
+      let currentCondition = lines[start].trim().substring(3).trim();
+      let branchStart = start + 1;
 
-    document
-      .getElementById("runButton")
-      .addEventListener(
-        "click",
-        () => {
+      for (let i = start + 1; i < lines.length; i++) {
+        const line = cleanLine(lines[i]);
 
-          output.className = "";
+        if (line.startsWith("if ")) {
+          depth++;
+        }
 
+        if (line === "end") {
+          depth--;
 
-          try {
+          if (depth === 0) {
+            branches.push({
+              condition: currentCondition,
+              start: branchStart,
+              end: i
+            });
 
-            const result =
-              runNova(
-                editor.value
-              );
+            endIndex = i;
+            break;
+          }
+        }
 
+        if (depth === 1 && line.startsWith("elseif ")) {
+          branches.push({
+            condition: currentCondition,
+            start: branchStart,
+            end: i
+          });
 
-            output.textContent =
-              result === ""
-                ? "Program finished with no output."
-                : result;
+          currentCondition = line.substring(7).trim();
+          branchStart = i + 1;
+        }
 
+        if (depth === 1 && line === "else") {
+          branches.push({
+            condition: null,
+            start: branchStart,
+            end: i
+          });
 
-            output.className =
-              "success";
+          branchStart = i + 1;
+          currentCondition = null;
+        }
+      }
 
-          } catch (error) {
+      if (endIndex === -1) {
+        throw new Error("Missing end");
+      }
 
-            output.textContent =
-              "❌ Nova Error\n\n" +
-              error.message;
+      return {
+        branches,
+        endIndex
+      };
+    }
 
-            output.className =
-              "error";
+    function executeLines(start, end) {
+      for (let i = start; i < end; i++) {
+        const raw = lines[i];
+        const line = cleanLine(raw);
 
+        if (!line || line.startsWith("#")) {
+          continue;
+        }
+
+        if (line.startsWith("if ")) {
+          const chain = findIfChain(i);
+
+          let executed = false;
+
+          for (const branch of chain.branches) {
+            if (
+              branch.condition === null ||
+              evaluateCondition(branch.condition)
+            ) {
+              executeLines(branch.start, branch.end);
+              executed = true;
+              break;
+            }
           }
 
-
-          localStorage.setItem(
-            STORAGE_KEY,
-            editor.value
-          );
-
-          status.textContent =
-            "Saved";
-
-        }
-      );
-
-
-    /*
-      =====================================
-      TAB SUPPORT
-      =====================================
-    */
-
-    editor.addEventListener(
-      "keydown",
-      (event) => {
-
-        if (event.key === "Tab") {
-
-          event.preventDefault();
-
-
-          const start =
-            editor.selectionStart;
-
-          const end =
-            editor.selectionEnd;
-
-
-          editor.value =
-            editor.value.substring(
-              0,
-              start
-            ) +
-            "    " +
-            editor.value.substring(
-              end
-            );
-
-
-          editor.selectionStart =
-            start + 4;
-
-          editor.selectionEnd =
-            start + 4;
-
-
-          localStorage.setItem(
-            STORAGE_KEY,
-            editor.value
-          );
-
+          i = chain.endIndex;
+          continue;
         }
 
+        if (line === "else" || line.startsWith("elseif ")) {
+          continue;
+        }
+
+        if (line === "end") {
+          continue;
+        }
+
+        if (line.startsWith("say ")) {
+          const value = line.substring(4).trim();
+          results.push(String(evaluate(value)));
+          continue;
+        }
+
+        if (line.includes("=")) {
+          const equalsIndex = line.indexOf("=");
+
+          if (
+            line[equalsIndex + 1] === "="
+          ) {
+            throw new Error("Invalid variable assignment");
+          }
+
+          const name = line.substring(0, equalsIndex).trim();
+          const value = line.substring(equalsIndex + 1).trim();
+
+          if (!/^[A-Za-z_][A-Za-z0-9_]*$/.test(name)) {
+            throw new Error("Invalid variable name: " + name);
+          }
+
+          variables[name] = evaluate(value);
+          continue;
+        }
+
+        throw new Error("Unknown command: " + line);
       }
-    );
+    }
 
-  </script>
+    executeLines(0, lines.length);
+
+    return results;
+  }
+</script>
 
 </body>
 </html>
